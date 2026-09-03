@@ -175,7 +175,6 @@ LUAEOF
 
     neovim
     tree-sitter
-    gcc
     gnumake
     cmake
     pkg-config
@@ -184,6 +183,7 @@ LUAEOF
     wget
     curl
 
+    clang
     clang-tools
     lldb
     gdb
