@@ -95,7 +95,7 @@ LUAEOF
     enable = true;
 
     userName = "colombefioren";
-    userEmail = "colomberakotonjanahary";
+    userEmail = "colomberakotonjanahary@gmail.com";
 
     extraConfig = {
       init.defaultBranch = "main";
