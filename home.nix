@@ -97,6 +97,10 @@ LUAEOF
     syntaxHighlighting.enable = true;
 
     initContent = ''
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
       for seq_file in ~/.cache/matugen/sequences ~/.cache/wal/sequences ~/.cache/wallust/sequences; do
         if [[ -f "$seq_file" ]]; then
           cat "$seq_file"
