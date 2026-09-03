@@ -13,7 +13,7 @@
     lua5_1 luarocks gcc gnumake unzip rofi hyprlock hypridle grim slurp
     wl-clipboard cliphist tree-sitter ripgrep lazygit gh opencode
 
-    swww
+    awww
 
     adwaita-icon-theme
     hicolor-icon-theme
