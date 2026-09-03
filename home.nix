@@ -199,6 +199,12 @@ LUAEOF
     typescript
     typescript-language-server
 
+    go
+    rustc
+    cargo
+    ruby
+    perl
+
     alejandra
     nixfmt-rfc-style
     stylua

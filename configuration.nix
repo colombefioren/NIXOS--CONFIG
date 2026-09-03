@@ -24,6 +24,34 @@
     brightnessctl
     blueman
     polkit_gnome
+
+    file findutils fd tree jq yq less bat zip p7zip xz gzip bzip2 zstd gnutar
+    gnugrep gawk gnused coreutils binutils
+
+    nmap socat tcpdump traceroute iproute2 dnsutils whois openssl inetutils
+    gobuster ffuf nikto sqlmap httpie
+
+    john hashcat gnupg age
+
+    binwalk exiftool foremost sleuthkit testdisk libewf
+
+    wireshark
+
+    ghidra radare2 cutter
+
+    gdb lldb cmake pkg-config patchelf checksec elfutils strace ltrace valgrind rr
+
+    python3Packages.pip python3Packages.virtualenv
+
+    openssh sshpass git-lfs zip jq yq fd bat
+
+    imagemagick pngcheck optipng
+
+    ffmpeg mediainfo
+
+    util-linux parted gptfdisk
+
+    man man-pages
   ];
 
   programs.hyprland = {
