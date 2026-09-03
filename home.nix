@@ -91,6 +91,21 @@ LUAEOF
 
   xdg.configFile."kitty/kitty.conf".force = true;
 
+  programs.git = {
+    enable = true;
+
+    userName = "colombefioren";
+    userEmail = "colomberakotonjanahary";
+
+    extraConfig = {
+      init.defaultBranch = "main";
+      pull.rebase = true;
+      push.autoSetupRemote = true;
+      fetch.prune = true;
+      rerere.enabled = true;
+    };
+  };
+
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
