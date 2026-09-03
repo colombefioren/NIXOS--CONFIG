@@ -151,9 +151,70 @@ LUAEOF
     yazi
     lazygit
     fastfetch
+    fzf
+    zoxide
+
+    git
+    gh
+    git-lfs
+
+    neovim
+    tree-sitter
+    gcc
+    gnumake
+    cmake
+    pkg-config
+    unzip
+    zip
+    wget
+    curl
+
+    clang
+    clang-tools
+    lldb
+    gdb
+    cmake
+    ninja
+
+    python3
+    uv
+
+    jdk17
+    maven
+    gradle
+
+    nodejs
+    nodePackages.npm
+    nodePackages.typescript
+    nodePackages.typescript-language-server
+
+    alejandra
+    nixfmt-rfc-style
+    stylua
+    shfmt
+    shellcheck
+
+    jq
+    yq
+    just
+    direnv
+    nix-direnv
+
+    wl-clipboard
+    cliphist
+
     brave
     vscode
     mpvpaper
     mpv
+
+    pavucontrol
+    playerctl
+    brightnessctl
+    blueman
+
+    adwaita-icon-theme
+    hicolor-icon-theme
+    papirus-icon-theme
   ];
 }
