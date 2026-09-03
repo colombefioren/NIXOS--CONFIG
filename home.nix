@@ -184,9 +184,8 @@ LUAEOF
     gradle
 
     nodejs
-    nodePackages.npm
-    nodePackages.typescript
-    nodePackages.typescript-language-server
+    typescript
+    typescript-language-server
 
     alejandra
     nixfmt-rfc-style
