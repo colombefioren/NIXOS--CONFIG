@@ -169,11 +169,9 @@ LUAEOF
     wget
     curl
 
-    clang
     clang-tools
     lldb
     gdb
-    cmake
     ninja
 
     python3
