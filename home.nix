@@ -174,7 +174,6 @@ LUAEOF
     gdb
     ninja
 
-    python3
     uv
 
     jdk17
