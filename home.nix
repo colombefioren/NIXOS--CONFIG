@@ -95,21 +95,7 @@ LUAEOF
     };
     Service = {
       Type = "oneshot";
-      ExecStart = ''
-        ${pkgs.bash}/bin/bash -c '
-          export PATH=/run/current-system/sw/bin:$PATH
-          for i in $(seq 1 30); do
-            id=$(wpctl status | sed -n "/Sinks:/,/Sources:/p" | grep "Built-in Audio Analog Stereo" | grep -oE "[0-9]+" | head -1)
-            if [ -n "$id" ]; then
-              sleep 2
-              wpctl set-volume "$id" 1.5
-              exit 0
-            fi
-            sleep 1
-          done
-          exit 1
-        '
-      '';
+      ExecStart = "${pkgs.bash}/bin/bash -c 'export PATH=/run/current-system/sw/bin:$PATH; for i in $(seq 1 30); do id=$(wpctl status | sed -n \"/Sinks:/,/Sources:/p\" | grep \"Built-in Audio Analog Stereo\" | grep -oE \"[0-9]+\" | head -1); if [ -n \"$id\" ]; then sleep 2; wpctl set-volume \"$id\" 1.5; exit 0; fi; sleep 1; done; exit 1'";
     };
     Install = {
       WantedBy = [ "default.target" ];
