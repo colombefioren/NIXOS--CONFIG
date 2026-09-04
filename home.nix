@@ -93,6 +93,9 @@ hl.config({
 hl.window_rule({ match = { class = "^(brave-browser)$" }, opacity = "1 0.8" })
 hl.window_rule({ match = { class = "^(brave)$" }, opacity = "1 0.8" })
 
+-- btop: much more transparent so the blur shows through its very dark UI
+hl.window_rule({ match = { title = "^btop$" }, opacity = "0.55 0.45" })
+
 hl.gesture({
     fingers = 3,
     direction = "left",
