@@ -142,10 +142,6 @@ LUAEOF
       done
 
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8,bold"
-
-      wset() {
-        "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh" --mode dark "$1" >/dev/null 2>&1
-      }
     '';
 
     shellAliases = {
@@ -156,7 +152,7 @@ LUAEOF
       nrs = "sudo nixos-rebuild switch --flake /etc/nixos#dellillah";
       end4pull = "cd ~/.config/quickshell/end4-pC && git pull";
       wvid = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/wallpaper.mp4 >/dev/null 2>&1";
-      wpic = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/wallpaper.png >/dev/null 2>&1";
+      wpic = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/pokemon.png >/dev/null 2>&1";
     };
 
     profileExtra = ''
