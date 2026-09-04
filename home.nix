@@ -167,6 +167,26 @@ LUAEOF
 
   xdg.configFile."kitty/kitty.conf".force = true;
 
+  programs.gtk = {
+    enable = true;
+    gtk3 = {
+      iconTheme = {
+        name = "OneUI-dark";
+      };
+      extraConfig = {
+        gtk-application-prefer-dark-theme = 1;
+      };
+    };
+    gtk4 = {
+      iconTheme = {
+        name = "OneUI-dark";
+      };
+      extraConfig = {
+        gtk-application-prefer-dark-theme = 1;
+      };
+    };
+  };
+
   programs.git = {
     enable = true;
 
@@ -257,6 +277,7 @@ LUAEOF
     fastfetch
     fzf
     zoxide
+    nautilus
 
     git
     gh
