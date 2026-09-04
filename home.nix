@@ -75,12 +75,28 @@ hl.config({
     },
   },
 })
+
+hl.gesture({
+    fingers = 3,
+    direction = "left",
+    action = function()
+        hl.dispatch(hl.dsp.exec_cmd("hyprctl dispatch workspace +1"))
+    end
+})
+hl.gesture({
+    fingers = 3,
+    direction = "right",
+    action = function()
+        hl.dispatch(hl.dsp.exec_cmd("hyprctl dispatch workspace -1"))
+    end
+})
 LUAEOF
     chmod u+w "$HOME/.config/hypr/custom/late.lua"
     if ! grep -q 'require("custom.late")' "$HOME/.config/hypr/hyprland.lua" 2>/dev/null; then
       echo 'require("custom.late")' >> "$HOME/.config/hypr/hyprland.lua"
     fi
     sed -i 's/action = "move"/action = "workspace"/' "$HOME/.config/hypr/hyprland/general.lua"
+    sed -i 's/direction = "swipe"/direction = "vertical"/' "$HOME/.config/hypr/hyprland/general.lua"
   '';
 
   home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
