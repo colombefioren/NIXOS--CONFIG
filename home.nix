@@ -85,7 +85,12 @@ LUAEOF
       cursor_trail = 3;
       cursor_trail_decay = "0.1 0.45";
       cursor_trail_start_threshold = 2;
+      background_opacity = "0.75";   # lower = more transparent
+      dynamic_background_opacity = "yes";
     };
+    extraConfig = ''
+      include ~/.local/state/quickshell/user/generated/terminal/kitty-theme.conf
+    '';
   };
 
   xdg.configFile."kitty/kitty.conf".force = true;
