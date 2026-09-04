@@ -281,7 +281,7 @@ LUAEOF
       }
 
       /* ════════════════════════════════════════════════════════════
-         HEADERBAR — slimmest, blurred, buttons centered with title
+         HEADERBAR — truly compact, all buttons vertically centered
       ════════════════════════════════════════════════════════════ */
       headerbar,
       .nautilus-window headerbar,
@@ -292,9 +292,9 @@ LUAEOF
         border: none;
         border-bottom: 1px solid @border_color;
         box-shadow: none;
-        padding: 0 8px;
-        min-height: 40px;
-        max-height: 40px;
+        padding: 4px 8px;
+        min-height: 38px;
+        max-height: 38px;
       }
       headerbar .title,
       .titlebar .title {
@@ -307,20 +307,50 @@ LUAEOF
       headerbar button {
         -gtk-icon-style: regular;
       }
+
+      /* Square, fixed-size, vertically centered buttons.
+         min-height: 0 + margin auto keeps them from stretching
+         to the full headerbar height. */
       headerbar > box > button,
       headerbar button {
         min-height: 0;
         min-width: 0;
-        padding: 6px 10px;
         margin: 0 1px;
+        padding: 6px;
         border-radius: 8px;
       }
-      headerbar > box > button.image-button,
       headerbar button.image-button {
-        min-height: 28px;
-        min-width: 28px;
-        padding: 4px;
+        min-height: 26px;
+        min-width: 26px;
+        padding: 0;
       }
+
+      /* Window controls (minimize / maximize / close) */
+      headerbar button.titlebutton,
+      headerbar .titlebutton,
+      headerbar windowcontrols button {
+        min-height: 20px;
+        min-width: 20px;
+        padding: 0;
+        margin: 0 4px;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+      }
+      headerbar windowcontrols button:active {
+        background-color: rgba(255,255,255,0.12);
+      }
+
+      /* Back / forward / search icon buttons */
+      headerbar .nautilus-headerbar-left,
+      headerbar .nautilus-headerbar-right,
+      headerbar .linked,
+      headerbar > box > box > button {
+        min-height: 26px;
+        min-width: 26px;
+        padding: 0;
+      }
+
       .nautilus-path-bar {
         margin: 0 4px;
         padding: 0;
@@ -329,7 +359,7 @@ LUAEOF
         border-radius: 8px;
         padding: 3px 12px;
         margin: 0 1px;
-        min-height: 28px;
+        min-height: 26px;
         font-weight: 500;
         border: 1px solid transparent;
       }
@@ -456,7 +486,7 @@ LUAEOF
       }
       dialog > .dialog-vbox,
       dialog .dialog-vbox {
-        padding: 24px 24px 8px 24px;
+        padding: 26px 26px 20px 26px;
       }
       dialog .dialog-vbox image {
         margin-bottom: 12px;
@@ -476,8 +506,9 @@ LUAEOF
       }
       dialog .dialog-action-area,
       message-dialog .dialog-action-area {
-        padding: 10px 24px 20px 24px;
-        border-top: 1px solid @border_color;
+        padding: 6px 26px 22px 26px;
+        border-top: none;
+        margin-top: 8px;
         background-clip: padding-box;
       }
       dialog .dialog-action-area button,
