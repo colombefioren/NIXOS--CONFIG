@@ -142,6 +142,10 @@ LUAEOF
       done
 
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8,bold"
+
+      wset() {
+        "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh" --mode dark "$1" >/dev/null 2>&1
+      }
     '';
 
     shellAliases = {
