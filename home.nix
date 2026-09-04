@@ -104,8 +104,8 @@ hl.window_rule({ match = { title = "^btop$" }, opacity = "0.55 0.45" })
 -- Nautilus: gnome-style floating centered window, big but not fullscreen
 hl.window_rule({ match = { class = "^org.gnome.Nautilus$" }, float = true, center = true, size = { "(monitor_w*0.7)", "(monitor_h*0.75)" } })
 
--- Rofi launcher: blur behind it like the shell layers
-hl.layer_rule({ match = { namespace = "rofi" }, blur = true })
+-- Rofi launcher: blur behind it like the shell layers, clipped to its rounded shape
+hl.layer_rule({ match = { namespace = "rofi" }, blur = true, ignore_alpha = 0.1 })
 
 hl.gesture({
     fingers = 3,
