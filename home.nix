@@ -15,7 +15,7 @@ hl.config({
     kb_layout = "fr",
     touchpad = {
       clickfinger_behavior = true,
-      natural_scroll = true,
+      natural_scroll = false,
     },
   },
 })
@@ -65,6 +65,21 @@ LUAEOF
 hl.env("qsConfig", "end4-pC")
 LUAEOF
     chmod u+w "$HOME/.config/hypr/custom/variables.lua"
+
+    cat > "$HOME/.config/hypr/custom/late.lua" << 'LUAEOF'
+hl.config({
+  input = {
+    kb_layout = "fr",
+    touchpad = {
+      natural_scroll = false,
+    },
+  },
+})
+LUAEOF
+    chmod u+w "$HOME/.config/hypr/custom/late.lua"
+    if ! grep -q 'require("custom.late")' "$HOME/.config/hypr/hyprland.lua" 2>/dev/null; then
+      echo 'require("custom.late")' >> "$HOME/.config/hypr/hyprland.lua"
+    fi
   '';
 
   home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
