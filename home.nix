@@ -80,6 +80,7 @@ LUAEOF
     if ! grep -q 'require("custom.late")' "$HOME/.config/hypr/hyprland.lua" 2>/dev/null; then
       echo 'require("custom.late")' >> "$HOME/.config/hypr/hyprland.lua"
     fi
+    sed -i 's/action = "move"/action = "workspace"/' "$HOME/.config/hypr/hyprland/general.lua"
   '';
 
   home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
