@@ -135,6 +135,9 @@
         if ! grep -q 'XCURSOR_THEME' "$HOME/.config/hypr/hyprland/env.lua" 2>/dev/null; then
           printf '\nhl.env("XCURSOR_THEME", "pikachu-cursor")\nhl.env("XCURSOR_SIZE", "24")\n' >> "$HOME/.config/hypr/hyprland/env.lua"
         fi
+        if ! grep -q 'HYPRCURSOR_THEME' "$HOME/.config/hypr/hyprland/env.lua" 2>/dev/null; then
+          printf '\nhl.env("HYPRCURSOR_THEME", "pikachu-cursor")\nhl.env("HYPRCURSOR_SIZE", "24")\n' >> "$HOME/.config/hypr/hyprland/env.lua"
+        fi
   '';
 
   home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
@@ -823,6 +826,8 @@
     ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
     XCURSOR_THEME = "pikachu-cursor";
     XCURSOR_SIZE = "24";
+    HYPRCURSOR_THEME = "pikachu-cursor";
+    HYPRCURSOR_SIZE = "24";
   };
 
   programs.git = {
