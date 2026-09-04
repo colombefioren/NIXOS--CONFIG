@@ -936,6 +936,10 @@ LUAEOF
     mpvpaper
     mpv
 
+    loupe
+    evince
+    celluloid
+
     pavucontrol
     playerctl
     brightnessctl
@@ -945,4 +949,22 @@ LUAEOF
     hicolor-icon-theme
     papirus-icon-theme
   ];
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "image/jpeg" = [ "org.gnome.Loupe.desktop" ];
+      "image/png" = [ "org.gnome.Loupe.desktop" ];
+      "image/gif" = [ "org.gnome.Loupe.desktop" ];
+      "image/webp" = [ "org.gnome.Loupe.desktop" ];
+      "image/svg+xml" = [ "org.gnome.Loupe.desktop" ];
+
+      "video/mp4" = [ "mpv.desktop" ];
+      "video/x-matroska" = [ "mpv.desktop" ];
+      "video/webm" = [ "mpv.desktop" ];
+      "video/quicktime" = [ "mpv.desktop" ];
+
+      "application/pdf" = [ "org.gnome.Evince.desktop" ];
+    };
+  };
 }
