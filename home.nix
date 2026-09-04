@@ -141,8 +141,8 @@ LUAEOF
       cat = "bat";
       nclean = "sudo nix-env -p /nix/var/nix/profiles/system --delete-generations old && sudo nix-collect-garbage -d && sudo nixos-rebuild switch --flake /etc/nixos#dellillah";
       nrs = "sudo nixos-rebuild switch --flake /etc/nixos#dellillah";
-      wvid = "$HOME/.config/quickshell/ii/scripts/colors/switchwall.sh $HOME/Downloads/wallpaper.mp4 >/dev/null 2>&1";
-      wpic = "$HOME/.config/quickshell/ii/scripts/colors/switchwall.sh $HOME/Downloads/wallpaper.png >/dev/null 2>&1";
+      wvid = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh $HOME/Downloads/wallpaper.mp4 >/dev/null 2>&1";
+      wpic = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh $HOME/Downloads/wallpaper.png >/dev/null 2>&1";
     };
 
     profileExtra = ''
