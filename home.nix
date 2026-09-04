@@ -103,8 +103,6 @@ hl.window_rule({ match = { title = "^btop$" }, opacity = "0.55 0.45" })
 
 -- Nautilus: gnome-style floating centered window, big but not fullscreen
 hl.window_rule({ match = { class = "^org.gnome.Nautilus$" }, float = true, center = true, size = { "(monitor_w*0.7)", "(monitor_h*0.75)" } })
--- Terminal: same, floating centered
-hl.window_rule({ match = { class = "^kitty$" }, float = true, center = true, size = { "(monitor_w*0.75)", "(monitor_h*0.8)" } })
 
 hl.gesture({
     fingers = 3,
