@@ -178,7 +178,9 @@ LUAEOF
 
   xdg.configFile."kitty/kitty.conf".force = true;
 
-  xdg.configFile."rofi/config.rasi".text = ''
+  xdg.configFile."rofi/config.rasi" = {
+    force = true;
+    text = ''
     @theme "/home/cocofioren/.local/share/rofi/themes/rounded-green-dark.rasi"
 
     configuration {
@@ -188,8 +190,11 @@ LUAEOF
       display-drun: "Apps";
     }
   '';
+  };
 
-  home.file."local/share/rofi/themes/rounded-green-dark.rasi".text = ''
+  home.file."local/share/rofi/themes/rounded-green-dark.rasi" = {
+    force = true;
+    text = ''
     /* ROUNDED THEME FOR ROFI */
     /* Author: Newman Sanchez (https://github.com/newmanls) */
 
@@ -206,6 +211,10 @@ LUAEOF
 
     @import "template/rounded-template.rasi"
   '';
+  };
+
+  xdg.configFile."gtk-3.0/settings.ini".force = true;
+  xdg.configFile."gtk-4.0/settings.ini".force = true;
 
   gtk = {
     enable = true;
@@ -230,18 +239,21 @@ LUAEOF
     };
   };
 
-  home.file."qt6ct/qt6ct.conf".text = ''
-    [Appearance]
-    icon_theme=Papirus-Dark
-  '';
+  home.file."qt6ct/qt6ct.conf" = {
+    force = true;
+    text = ''
+      [Appearance]
+      icon_theme=Papirus-Dark
+    '';
+  };
 
   programs.git = {
     enable = true;
 
-    userName = "colombefioren";
-    userEmail = "colomberakotonjanahary@gmail.com";
+    settings = {
+      user.name = "colombefioren";
+      user.email = "colomberakotonjanahary@gmail.com";
 
-    extraConfig = {
       init.defaultBranch = "main";
       pull.rebase = true;
       push.autoSetupRemote = true;
@@ -285,6 +297,10 @@ LUAEOF
       done
 
       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8,bold"
+
+      if command -v fetch >/dev/null 2>&1 && [ -t 1 ] && [ -n "$WAYLAND_DISPLAY" ]; then
+        fetch
+      fi
     '';
 
     shellAliases = {
@@ -297,12 +313,6 @@ LUAEOF
       wvid = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/wallpaper.mp4 >/dev/null 2>&1";
       wpic = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/pokemon.png >/dev/null 2>&1";
     };
-
-    initExtra = ''
-      if command -v fetch >/dev/null 2>&1 && [ -t 1 ] && [ -n "$WAYLAND_DISPLAY" ]; then
-        fetch
-      fi
-    '';
 
     profileExtra = ''
       if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
