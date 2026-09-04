@@ -192,7 +192,7 @@ LUAEOF
   '';
   };
 
-  home.file."local/share/rofi/themes/rounded-green-dark.rasi" = {
+  home.file.".local/share/rofi/themes/rounded-green-dark.rasi" = {
     force = true;
     text = ''
     /* ROUNDED THEME FOR ROFI */
