@@ -224,37 +224,40 @@ LUAEOF
          Neutral grays — no accent color, pure tonal design.
       ════════════════════════════════════════════════════════════ */
 
-      /* ── Core palette (monochrome, warm-neutral tint) ─────────── */
+      /* ── Core palette (monochrome, warm-neutral tint) ───────────
+         Backgrounds use ALPHA so Hyprland's glassmorphism blur
+         (blur + translucent window) shows through everywhere —
+         including popovers, dialogs and the headerbar. */
       @define-color accent_color #e8e8e8;
       @define-color accent_bg_color #6b6b6b;
       @define-color accent_fg_color #ffffff;
 
-      @define-color window_bg_color #111113;
+      @define-color window_bg_color rgba(17,17,19,0.86);
       @define-color window_fg_color #dcdcdc;
 
-      @define-color view_bg_color #151517;
+      @define-color view_bg_color rgba(21,21,23,0.82);
       @define-color view_fg_color #dcdcdc;
 
-      @define-color headerbar_bg_color #18181b;
+      @define-color headerbar_bg_color rgba(24,24,27,0.75);
       @define-color headerbar_fg_color #e2e2e2;
-      @define-color headerbar_backdrop_color #111113;
+      @define-color headerbar_backdrop_color rgba(17,17,19,0.72);
       @define-color headerbar_shade_color rgba(0,0,0,0.35);
 
-      @define-color sidebar_bg_color #0d0d0f;
+      @define-color sidebar_bg_color rgba(13,13,15,0.82);
       @define-color sidebar_fg_color #bfc0c2;
-      @define-color sidebar_backdrop_color #0d0d0f;
+      @define-color sidebar_backdrop_color rgba(13,13,15,0.8);
 
-      @define-color popover_bg_color #1c1c1f;
+      @define-color popover_bg_color rgba(28,28,31,0.72);
       @define-color popover_fg_color #dcdcdc;
       @define-color popover_shade_color rgba(0,0,0,0.3);
 
-      @define-color card_bg_color #18181b;
+      @define-color card_bg_color rgba(24,24,27,0.72);
       @define-color card_fg_color #dcdcdc;
 
-      @define-color dialog_bg_color #18181b;
+      @define-color dialog_bg_color rgba(24,24,27,0.72);
       @define-color dialog_fg_color #dcdcdc;
 
-      @define-color border_color rgba(255,255,255,0.08);
+      @define-color border_color rgba(255,255,255,0.09);
       @define-color shade_color rgba(0,0,0,0.3);
 
       /* Uniform surface — every section (Home, Starred, Network…)
@@ -278,7 +281,7 @@ LUAEOF
       }
 
       /* ════════════════════════════════════════════════════════════
-         HEADERBAR — clean, rounded, well-spaced
+         HEADERBAR — slim, blurred, airy
       ════════════════════════════════════════════════════════════ */
       headerbar,
       .nautilus-window headerbar,
@@ -289,13 +292,13 @@ LUAEOF
         border: none;
         border-bottom: 1px solid @border_color;
         box-shadow: none;
-        padding: 6px 12px;
-        min-height: 52px;
+        padding: 2px 10px;
+        min-height: 42px;
       }
       headerbar .title,
       .titlebar .title {
-        font-weight: 700;
-        font-size: 14px;
+        font-weight: 650;
+        font-size: 13px;
         letter-spacing: 0.2px;
         color: @headerbar_fg_color;
       }
@@ -303,15 +306,21 @@ LUAEOF
       headerbar button {
         -gtk-icon-style: regular;
       }
-      .nautilus-path-bar {
-        margin: 0 8px;
+      headerbar > box > button.image-button,
+      headerbar button.image-button {
+        min-height: 28px;
+        min-width: 28px;
         padding: 2px;
       }
+      .nautilus-path-bar {
+        margin: 0 6px;
+        padding: 1px;
+      }
       .nautilus-path-bar button {
-        border-radius: 9px;
-        padding: 5px 14px;
+        border-radius: 8px;
+        padding: 3px 12px;
         margin: 0 1px;
-        min-height: 30px;
+        min-height: 27px;
         font-weight: 500;
         border: 1px solid transparent;
       }
