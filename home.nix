@@ -105,6 +105,9 @@ LUAEOF
       $DRY_RUN_CMD ${pkgs.git}/bin/git clone --depth 1 https://github.com/pctrade/end4-pC.git "$HOME/.config/quickshell/end4-pC" || true
     fi
     sed -i "s/primary_paletteKeyColor/primaryPaletteKeyColor/" "$HOME/.config/quickshell/end4-pC/scripts/colors/generate_colors_material.py"
+    if ! grep -q 'magick png:' "$HOME/.config/quickshell/end4-pC/modules/common/utils/ScreenshotAction.qml" 2>/dev/null; then
+      sed -i 's|const cropBase = `magick |const cropBase = `magick png:|' "$HOME/.config/quickshell/end4-pC/modules/common/utils/ScreenshotAction.qml"
+    fi
   '';
   systemd.user.services.audio-volume-boost = {
     Unit = {
