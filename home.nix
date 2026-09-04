@@ -15,7 +15,7 @@ hl.config({
     kb_layout = "fr",
     touchpad = {
       clickfinger_behavior = true,
-      natural_scroll = false,
+      natural_scroll = true,
     },
   },
 })
@@ -71,7 +71,7 @@ hl.config({
   input = {
     kb_layout = "fr",
     touchpad = {
-      natural_scroll = false,
+      natural_scroll = true,
     },
   },
 })
