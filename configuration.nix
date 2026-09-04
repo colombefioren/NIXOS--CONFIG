@@ -110,12 +110,13 @@
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [ xdg-desktop-portal-hyprland xdg-desktop-portal-gtk ];
-  };
-
-  programs.dconf.enable = true;
-
+  };  programs.dconf.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
+
+  # Phone / MTP access (Android) + iPhone (usbmuxd)
+  services.udev.packages = [ pkgs.libmtp ];
+  services.usbmuxd.enable = true;
 
   hardware.graphics.enable = true;
 
