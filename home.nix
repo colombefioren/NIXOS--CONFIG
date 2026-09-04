@@ -22,50 +22,39 @@ hl.config({
 
 hl.unbind(mainMod .. "+RETURN")
 hl.unbind(mainMod .. "+Return")
-
 hl.bind(mainMod .. "+RETURN", hl.dsp.exec_cmd("kitty"))
-
 hl.bind(mainMod .. "+A", hl.dsp.exec_cmd("qs -c end4-pC ipc call sidebarLeft toggle"), { description = "Left sidebar" })
 hl.bind(mainMod .. "+N", hl.dsp.exec_cmd("qs -c end4-pC ipc call sidebarRight toggle"), { description = "Right sidebar" })
 hl.bind(mainMod .. "+L", hl.dsp.exec_cmd("qs -c end4-pC ipc call lock activate"), { description = "Lock screen" })
 hl.bind(mainMod .. "+Escape", hl.dsp.exec_cmd("qs -c end4-pC ipc call settingsToggle"), { description = "Settings" })
 hl.bind(mainMod .. "+comma", hl.dsp.exec_cmd("qs -c end4-pC ipc call bar toggle"), { description = "Toggle bar" })
 hl.bind(mainMod .. "+SHIFT+R", hl.dsp.exec_cmd("killall qs quickshell; qs -c end4-pC &"), { description = "Reload shell" })
-
 hl.bind(mainMod .. "+S",
   hl.dsp.exec_cmd([[grim -g "$(slurp)" ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png && wl-copy < ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png]]),
   { description = "Screenshot region" })
-
 hl.bind(mainMod .. "+V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. "+F", hl.dsp.window.fullscreen({ action = "toggle" }))
-
 hl.bind(mainMod .. "+U", hl.dsp.window.resize({ x = -50, y = 0 }))
 hl.bind(mainMod .. "+I", hl.dsp.window.resize({ x = 50, y = 0 }))
 hl.bind(mainMod .. "+O", hl.dsp.window.resize({ x = 0, y = -50 }))
 hl.bind(mainMod .. "+P", hl.dsp.window.resize({ x = 0, y = 50 }))
-
 hl.bind(mainMod .. "+ALT+left",  hl.dsp.window.swap({ direction = "left" }))
 hl.bind(mainMod .. "+ALT+right", hl.dsp.window.swap({ direction = "right" }))
 hl.bind(mainMod .. "+ALT+up",    hl.dsp.window.swap({ direction = "up" }))
 hl.bind(mainMod .. "+ALT+down",  hl.dsp.window.swap({ direction = "down" }))
-
 hl.bind(mainMod .. "+SHIFT+left",  hl.dsp.window.move({ direction = "left" }))
 hl.bind(mainMod .. "+SHIFT+right", hl.dsp.window.move({ direction = "right" }))
 hl.bind(mainMod .. "+SHIFT+up",    hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. "+SHIFT+down",  hl.dsp.window.move({ direction = "down" }))
-
 hl.bind(mainMod .. "+Q", hl.dsp.window.close())
 hl.bind(mainMod .. "+SPACE", hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind(mainMod .. "+B", hl.dsp.exec_cmd("brave"))
-
 hl.bind(mainMod .. "+SHIFT+1", hl.dsp.window.move({ workspace = "1", follow = true }))
 hl.bind(mainMod .. "+SHIFT+2", hl.dsp.window.move({ workspace = "2", follow = true }))
-
 hl.bind(mainMod .. "+right", hl.dsp.window.cycle_next({ next = true }))
 hl.bind(mainMod .. "+left",  hl.dsp.window.cycle_next({ false }))
 hl.bind(mainMod .. "+down",  hl.dsp.window.cycle_next({ next = true }))
 hl.bind(mainMod .. "+up",    hl.dsp.window.cycle_next({ false }))
-
 for i = 1, 10 do
   hl.bind(mainMod .. "+F" .. i, hl.dsp.window.move({ workspace = tostring(i), follow = true }))
 end
