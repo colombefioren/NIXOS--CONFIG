@@ -388,7 +388,6 @@ LUAEOF
       }
       .nautilus-grid-view .view,
       .nautilus-grid-view {
-        row-spacing: 4px;
         padding: 8px;
       }
       .nautilus-grid-view > child {
@@ -545,7 +544,7 @@ LUAEOF
       }
 
       /* ── Misc polish ──────────────────────────────────────────── */
-      .titlebar:not(headerbar):not(.titlebar.background) {
+      .titlebar:not(headerbar) {
         border-radius: 0;
       }
       .text-button:focus-visible,
@@ -553,9 +552,6 @@ LUAEOF
       button:focus-visible {
         outline: 2px solid alpha(@accent_color, 0.5);
         outline-offset: 2px;
-      }
-      image.no-round {
-        -gtk-icon-radius: 0;
       }
     '';
   };
