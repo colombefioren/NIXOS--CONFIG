@@ -167,7 +167,7 @@ LUAEOF
 
   xdg.configFile."kitty/kitty.conf".force = true;
 
-  programs.gtk = {
+  gtk = {
     enable = true;
     gtk3 = {
       iconTheme = {
