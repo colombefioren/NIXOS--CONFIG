@@ -86,6 +86,7 @@ LUAEOF
     if [ ! -d "$HOME/.config/quickshell/end4-pC/.git" ]; then
       $DRY_RUN_CMD ${pkgs.git}/bin/git clone --depth 1 https://github.com/pctrade/end4-pC.git "$HOME/.config/quickshell/end4-pC" || true
     fi
+    sed -i "s/primary_paletteKeyColor/primaryPaletteKeyColor/" "$HOME/.config/quickshell/end4-pC/scripts/colors/generate_colors_material.py"
   '';
   programs.illogical-impulse.enable = true;
 
