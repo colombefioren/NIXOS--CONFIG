@@ -219,49 +219,343 @@ LUAEOF
   xdg.configFile."gtk-4.0/gtk.css" = {
     force = true;
     text = ''
-      /* Dark green palette for libadwaita apps (Nautilus, etc.) */
+      /* ── Accent + palette ─────────────────────────────────────── */
       @define-color accent_color #4caf7d;
       @define-color accent_bg_color #2f6b47;
       @define-color accent_fg_color #ffffff;
-
       @define-color window_bg_color #10160f;
       @define-color window_fg_color #d9e6dc;
-
       @define-color view_bg_color #141d16;
       @define-color view_fg_color #d9e6dc;
-
       @define-color headerbar_bg_color #141d16;
       @define-color headerbar_fg_color #d9e6dc;
       @define-color headerbar_backdrop_color #10160f;
       @define-color headerbar_shade_color rgba(0,0,0,0.36);
-
       @define-color sidebar_bg_color #0c1210;
       @define-color sidebar_fg_color #cfe0d3;
       @define-color sidebar_backdrop_color #0c1210;
-
       @define-color popover_bg_color #182119;
       @define-color popover_fg_color #d9e6dc;
       @define-color popover_shade_color rgba(0,0,0,0.28);
-
       @define-color card_bg_color #172018;
       @define-color card_fg_color #d9e6dc;
-
       @define-color dialog_bg_color #141d16;
       @define-color dialog_fg_color #d9e6dc;
-
       @define-color border_color rgba(255,255,255,0.09);
       @define-color shade_color rgba(0,0,0,0.28);
 
-      /* Round + shadow the actual popup surface */
-      popover > contents {
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+      /* ── Popovers: round + shadow + padding ───────────────────── */
+      popover,
+      popover.background,
+      popover.background:not(.menu) {
+        border-radius: 14px;
+        margin: 8px;
+        padding: 0;
       }
-      popover.menu > contents {
+      popover > contents,
+      popover.background > contents {
+        border-radius: 14px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.55),
+                    0 2px 8px rgba(0,0,0,0.3),
+                    0 0 0 1px rgba(255,255,255,0.06);
+        background-color: @popover_bg_color;
+        padding: 6px;
+      }
+      popover > contents > box,
+      popover.background > contents > box {
         padding: 4px;
       }
-      .card, dialog > .background, window.dialog > .background {
+
+      /* Right-click context menus */
+      popover.menu,
+      popover.menu.background {
         border-radius: 14px;
+        padding: 0;
+      }
+      popover.menu > contents,
+      popover.menu.background > contents {
+        border-radius: 14px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.55),
+                    0 2px 8px rgba(0,0,0,0.3),
+                    0 0 0 1px rgba(255,255,255,0.06);
+        background-color: @popover_bg_color;
+        padding: 6px;
+      }
+      popover.menu > contents > box,
+      popover.menu.background > contents > box {
+        padding: 4px;
+      }
+
+      /* ── Menu items: spacing + hover ──────────────────────────── */
+      popover.background menuitem,
+      popover.background button.model {
+        border-radius: 10px;
+        padding: 6px 12px;
+        margin: 1px 2px;
+        min-height: 32px;
+      }
+      popover.background menuitem:hover,
+      popover.background button.model:hover {
+        background-color: @accent_bg_color;
+      }
+      popover.background separator {
+        margin: 4px 8px;
+        background-color: @border_color;
+      }
+
+      /* ── Cards ────────────────────────────────────────────────── */
+      .card,
+      .card.background,
+      list > row,
+      box.card {
+        border-radius: 14px;
+        border: 1px solid @border_color;
+        background-color: @card_bg_color;
+      }
+      list > row:selected {
+        background-color: alpha(@accent_color, 0.15);
+      }
+      list > row:hover {
+        background-color: alpha(@accent_color, 0.06);
+      }
+
+      /* ── Dialogs ──────────────────────────────────────────────── */
+      dialog,
+      dialog.background,
+      window.dialog,
+      window.dialog > .background {
+        border-radius: 16px;
+        border: 1px solid @border_color;
+      }
+      dialog .dialog-action-area button {
+        border-radius: 10px;
+        margin: 4px;
+        padding: 6px 16px;
+        min-height: 34px;
+      }
+      dialog .dialog-action-area button:not(:last-child) {
+        margin-right: 2px;
+      }
+
+      /* ── Buttons ──────────────────────────────────────────────── */
+      button {
+        border-radius: 10px;
+        padding: 5px 14px;
+        min-height: 30px;
+        transition: background 150ms ease, box-shadow 150ms ease;
+      }
+      button.suggested-action,
+      button.suggested-action.background {
+        background-color: @accent_bg_color;
+        color: @accent_fg_color;
+      }
+      button.suggested-action:hover {
+        background-color: shade(@accent_bg_color, 1.15);
+      }
+      button.destructive-action,
+      button.destructive-action.background {
+        background-color: #a83242;
+        color: #ffffff;
+      }
+
+      /* ── Nautilus headerbar ───────────────────────────────────── */
+      .nautilus-window headerbar,
+      .nautilus-window headerbar.background {
+        border-radius: 0;
+        border-bottom: 1px solid @border_color;
+        padding: 4px 8px;
+        min-height: 46px;
+      }
+
+      /* ── Nautilus path bar pills ──────────────────────────────── */
+      .nautilus-path-bar button {
+        border-radius: 8px;
+        padding: 4px 12px;
+        margin: 2px;
+      }
+      .nautilus-path-bar button:checked {
+        background-color: alpha(@accent_color, 0.18);
+        color: @accent_color;
+      }
+      .nautilus-path-bar button label {
+        font-weight: 600;
+      }
+
+      /* ── Nautilus file grid ───────────────────────────────────── */
+      .nautilus-grid-view,
+      .nautilus-list-view {
+        background-color: @view_bg_color;
+      }
+      .nautilus-grid-view .view,
+      .nautilus-grid-view {
+        row-spacing: 4px;
+        padding: 8px;
+      }
+      .nautilus-grid-view > child {
+        border-radius: 12px;
+        padding: 12px;
+        transition: background 150ms ease;
+      }
+      .nautilus-grid-view > child:hover {
+        background-color: alpha(@accent_color, 0.06);
+      }
+      .nautilus-grid-view > child:selected {
+        background-color: alpha(@accent_color, 0.15);
+      }
+      .nautilus-grid-view > child label {
+        font-size: 13px;
+      }
+
+      /* ── Nautilus list rows ───────────────────────────────────── */
+      .nautilus-list-view list row {
+        border-radius: 8px;
+        padding: 4px 12px;
+        margin: 1px 4px;
+        min-height: 36px;
+      }
+      .nautilus-list-view list row:hover {
+        background-color: alpha(@accent_color, 0.06);
+      }
+      .nautilus-list-view list row:selected {
+        background-color: alpha(@accent_color, 0.15);
+      }
+
+      /* ── Nautilus sidebar ─────────────────────────────────────── */
+      .nautilus-window .sidebar,
+      .nautilus-window navigation.sidebar,
+      .nautilus-window .navigation-sidebar {
+        background-color: @sidebar_bg_color;
+        border-right: 1px solid @border_color;
+      }
+      .nautilus-window .sidebar row,
+      .nautilus-window navigation.sidebar row {
+        border-radius: 8px;
+        margin: 1px 6px;
+        padding: 6px 10px;
+        min-height: 32px;
+      }
+      .nautilus-window .sidebar row:hover,
+      .nautilus-window navigation.sidebar row:hover {
+        background-color: alpha(@accent_color, 0.08);
+      }
+      .nautilus-window .sidebar row:selected,
+      .nautilus-window navigation.sidebar row:selected {
+        background-color: alpha(@accent_color, 0.16);
+        color: @accent_color;
+      }
+
+      /* ── Nautilus search bar ──────────────────────────────────── */
+      .nautilus-window searchbar,
+      .nautilus-window .searchbar {
+        background-color: @window_bg_color;
+        border-bottom: 1px solid @border_color;
+        padding: 8px 12px;
+        border-radius: 0;
+      }
+      .nautilus-window searchbar > box,
+      .nautilus-window .searchbar > box {
+        border-radius: 10px;
+        background-color: @view_bg_color;
+        border: 1px solid @border_color;
+        padding: 2px 8px;
+      }
+
+      /* ── Nautilus statusbar ───────────────────────────────────── */
+      .nautilus-window .statusbar,
+      .nautilus-window toolbarbar.bottom-bar {
+        border-top: 1px solid @border_color;
+        padding: 4px 12px;
+      }
+
+      /* ── Nautilus info pane ───────────────────────────────────── */
+      .nautilus-window .floating-bar,
+      .nautilus-window .info-bar {
+        border-radius: 8px;
+        margin: 4px 8px;
+      }
+
+      /* ── Tooltip ──────────────────────────────────────────────── */
+      tooltip,
+      tooltip.background,
+      tooltip.background > contents {
+        border-radius: 10px;
+        padding: 6px 10px;
+        background-color: @popover_bg_color;
+        border: 1px solid @border_color;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      }
+
+      /* ── Scrollbar ────────────────────────────────────────────── */
+      scrollbar {
+        background-color: transparent;
+      }
+      scrollbar slider {
+        border-radius: 999px;
+        min-width: 6px;
+        min-height: 6px;
+        margin: 2px;
+        transition: background 200ms ease;
+      }
+      scrollbar slider:hover {
+        background-color: alpha(@accent_color, 0.4);
+      }
+      scrollbar slider:active {
+        background-color: alpha(@accent_color, 0.6);
+      }
+
+      /* ── Selection / highlight ────────────────────────────────── */
+      selection,
+      selection:focus {
+        background-color: alpha(@accent_color, 0.3);
+        color: @accent_fg_color;
+      }
+      textview text {
+        caret-color: @accent_color;
+      }
+
+      /* ── Switch / toggle ──────────────────────────────────────── */
+      switch {
+        border-radius: 999px;
+        min-width: 46px;
+        min-height: 24px;
+      }
+      switch:checked {
+        background-color: @accent_bg_color;
+      }
+
+      /* ── Scale (sliders) ──────────────────────────────────────── */
+      scale slider {
+        border-radius: 999px;
+        min-width: 18px;
+        min-height: 18px;
+      }
+      scale trough {
+        border-radius: 999px;
+        min-height: 6px;
+      }
+
+      /* ── Tab bar ──────────────────────────────────────────────── */
+      tab {
+        border-radius: 10px 10px 0 0;
+        padding: 6px 16px;
+      }
+      tab:checked {
+        background-color: @window_bg_color;
+        border-bottom: 2px solid @accent_color;
+      }
+
+      /* ── Misc polish ──────────────────────────────────────────── */
+      .titlebar:not(headerbar):not(.titlebar.background) {
+        border-radius: 0;
+      }
+      .text-button:focus-visible,
+      .text-button:hover,
+      button:focus-visible {
+        outline: 2px solid alpha(@accent_color, 0.5);
+        outline-offset: 2px;
+      }
+      image.no-round {
+        -gtk-icon-radius: 0;
       }
     '';
   };
