@@ -71,6 +71,11 @@ for i = 1, 10 do
 end
 LUAEOF
     chmod u+w "$HOME/.config/hypr/custom/keybinds.lua"
+
+    cat > "$HOME/.config/hypr/custom/variables.lua" << 'LUAEOF'
+hl.env("qsConfig", "end4-pC")
+LUAEOF
+    chmod u+w "$HOME/.config/hypr/custom/variables.lua"
   '';
 
   home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
