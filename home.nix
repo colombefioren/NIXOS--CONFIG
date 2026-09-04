@@ -281,7 +281,7 @@ LUAEOF
       }
 
       /* ════════════════════════════════════════════════════════════
-         HEADERBAR — slim, blurred, airy
+         HEADERBAR — slimmest, blurred, buttons centered with title
       ════════════════════════════════════════════════════════════ */
       headerbar,
       .nautilus-window headerbar,
@@ -292,8 +292,9 @@ LUAEOF
         border: none;
         border-bottom: 1px solid @border_color;
         box-shadow: none;
-        padding: 2px 10px;
-        min-height: 42px;
+        padding: 0 8px;
+        min-height: 40px;
+        max-height: 40px;
       }
       headerbar .title,
       .titlebar .title {
@@ -306,21 +307,29 @@ LUAEOF
       headerbar button {
         -gtk-icon-style: regular;
       }
+      headerbar > box > button,
+      headerbar button {
+        min-height: 0;
+        min-width: 0;
+        padding: 6px 10px;
+        margin: 0 1px;
+        border-radius: 8px;
+      }
       headerbar > box > button.image-button,
       headerbar button.image-button {
         min-height: 28px;
         min-width: 28px;
-        padding: 2px;
+        padding: 4px;
       }
       .nautilus-path-bar {
-        margin: 0 6px;
-        padding: 1px;
+        margin: 0 4px;
+        padding: 0;
       }
       .nautilus-path-bar button {
         border-radius: 8px;
         padding: 3px 12px;
         margin: 0 1px;
-        min-height: 27px;
+        min-height: 28px;
         font-weight: 500;
         border: 1px solid transparent;
       }
@@ -389,21 +398,17 @@ LUAEOF
       popover > contents,
       popover.background > contents {
         border-radius: 14px;
-        background-color: @popover_bg_color;
+        background-color: rgba(28,28,31,0.55);
         color: @popover_fg_color;
         padding: 6px;
-        box-shadow: 0 18px 50px rgba(0,0,0,0.6),
-                    0 4px 14px rgba(0,0,0,0.35),
-                    0 0 0 1px rgba(255,255,255,0.07);
+        box-shadow: 0 12px 34px rgba(0,0,0,0.45);
       }
       popover.menu > contents,
       popover.menu.background > contents {
         border-radius: 14px;
-        background-color: @popover_bg_color;
+        background-color: rgba(28,28,31,0.55);
         padding: 6px;
-        box-shadow: 0 18px 50px rgba(0,0,0,0.6),
-                    0 4px 14px rgba(0,0,0,0.35),
-                    0 0 0 1px rgba(255,255,255,0.07);
+        box-shadow: 0 12px 34px rgba(0,0,0,0.45);
       }
       popover > contents > box,
       popover.background > contents > box {
@@ -418,6 +423,7 @@ LUAEOF
         min-height: 30px;
         color: @popover_fg_color;
         font-size: 13.5px;
+        background-color: transparent;
       }
       popover.background menuitem:hover,
       popover.background button.model:hover {
@@ -444,10 +450,9 @@ LUAEOF
       window.dialog > .background,
       .dialog.background {
         border-radius: 18px;
-        background-color: @dialog_bg_color;
-        border: 1px solid @border_color;
-        box-shadow: 0 24px 70px rgba(0,0,0,0.65),
-                    0 6px 20px rgba(0,0,0,0.4);
+        background-color: rgba(24,24,27,0.6);
+        border: none;
+        box-shadow: 0 18px 55px rgba(0,0,0,0.55);
       }
       dialog > .dialog-vbox,
       dialog .dialog-vbox {
