@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  zen-browser,
   ...
 }:
 
@@ -989,6 +990,11 @@
     vscode
     mpvpaper
     mpv
+
+    google-chrome
+    firefox
+    vivaldi
+    zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     loupe
     evince

@@ -18,9 +18,17 @@
       url = "github:areofyl/fetch";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, illogical-flake, areofyl-fetch, ... }: {
+  outputs = { self, nixpkgs, home-manager, illogical-flake, areofyl-fetch, zen-browser, ... }: {
     nixosConfigurations.dellillah = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -30,6 +38,8 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+
+          home-manager.extraSpecialArgs = { inherit zen-browser; };
 
           home-manager.users.cocofioren = {
             imports = [
