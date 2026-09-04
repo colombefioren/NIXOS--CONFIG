@@ -77,6 +77,22 @@ hl.config({
   },
 })
 
+-- Glassmorphism: translucent windows with strong blur (loaded last, wins over shell defaults)
+hl.config({
+  decoration = {
+    active_opacity = 0.92,
+    inactive_opacity = 0.8,
+    blur = {
+      size = 10,
+      ignore_opacity = true,
+    },
+  },
+})
+
+-- Brave: full opacity when active, like every other window when inactive
+hl.window_rule({ match = { class = "^(brave-browser)$" }, opacity = "1 0.8" })
+hl.window_rule({ match = { class = "^(brave)$" }, opacity = "1 0.8" })
+
 hl.gesture({
     fingers = 3,
     direction = "left",
@@ -98,6 +114,7 @@ LUAEOF
     fi
     sed -i 's/action = "move"/action = "workspace"/' "$HOME/.config/hypr/hyprland/general.lua"
     sed -i 's/direction = "swipe"/direction = "vertical"/' "$HOME/.config/hypr/hyprland/general.lua"
+    sed -i '/-- Disable blur for every window/,+1d' "$HOME/.config/hypr/hyprland/rules.lua"
   '';
 
   home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
