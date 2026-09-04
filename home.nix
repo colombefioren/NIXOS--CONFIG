@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   home.username = "cocofioren";
@@ -6,129 +11,130 @@
   home.stateVersion = "26.05";
 
   home.activation.writeMyHyprKeybinds = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
-    mkdir -p "$HOME/.config/hypr/custom"
-    cat > "$HOME/.config/hypr/custom/keybinds.lua" << 'LUAEOF'
-local mainMod = "SUPER"
+        mkdir -p "$HOME/.config/hypr/custom"
+        cat > "$HOME/.config/hypr/custom/keybinds.lua" << 'LUAEOF'
+    local mainMod = "SUPER"
 
-hl.config({
-  input = {
-    kb_layout = "fr",
-    touchpad = {
-      clickfinger_behavior = true,
-      natural_scroll = true,
-    },
-  },
-})
+    hl.config({
+      input = {
+        kb_layout = "fr",
+        touchpad = {
+          clickfinger_behavior = true,
+          natural_scroll = true,
+        },
+      },
+    })
 
-hl.unbind(mainMod .. "+RETURN")
-hl.unbind(mainMod .. "+Return")
-hl.bind(mainMod .. "+RETURN", hl.dsp.exec_cmd("kitty"))
-hl.bind(mainMod .. "+A", hl.dsp.exec_cmd("qs -c end4-pC ipc call sidebarLeft toggle"), { description = "Left sidebar" })
-hl.bind(mainMod .. "+N", hl.dsp.exec_cmd("qs -c end4-pC ipc call sidebarRight toggle"), { description = "Right sidebar" })
-hl.bind(mainMod .. "+L", hl.dsp.exec_cmd("qs -c end4-pC ipc call lock activate"), { description = "Lock screen" })
-hl.bind(mainMod .. "+Escape", hl.dsp.exec_cmd("qs -c end4-pC ipc call settingsToggle"), { description = "Settings" })
-hl.bind(mainMod .. "+comma", hl.dsp.exec_cmd("qs -c end4-pC ipc call bar toggle"), { description = "Toggle bar" })
-hl.bind(mainMod .. "+SHIFT+R", hl.dsp.exec_cmd("killall qs quickshell; qs -c end4-pC &"), { description = "Reload shell" })
-hl.unbind(mainMod .. "+S")
-hl.bind(mainMod .. "+S",
-  hl.dsp.exec_cmd([[mkdir -p ~/Pictures/Screenshots; f=~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png; grim -g "$(slurp)" "$f" && wl-copy < "$f"]]),
-  { description = "Screenshot region" })
-hl.bind(mainMod .. "+V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. "+F", hl.dsp.window.fullscreen({ action = "toggle" }))
-hl.bind(mainMod .. "+U", hl.dsp.window.resize({ x = -50, y = 0 }))
-hl.bind(mainMod .. "+I", hl.dsp.window.resize({ x = 50, y = 0 }))
-hl.bind(mainMod .. "+O", hl.dsp.window.resize({ x = 0, y = -50 }))
-hl.bind(mainMod .. "+P", hl.dsp.window.resize({ x = 0, y = 50 }))
-hl.bind(mainMod .. "+ALT+left",  hl.dsp.window.swap({ direction = "left" }))
-hl.bind(mainMod .. "+ALT+right", hl.dsp.window.swap({ direction = "right" }))
-hl.bind(mainMod .. "+ALT+up",    hl.dsp.window.swap({ direction = "up" }))
-hl.bind(mainMod .. "+ALT+down",  hl.dsp.window.swap({ direction = "down" }))
-hl.bind(mainMod .. "+SHIFT+left",  hl.dsp.window.move({ direction = "left" }))
-hl.bind(mainMod .. "+SHIFT+right", hl.dsp.window.move({ direction = "right" }))
-hl.bind(mainMod .. "+SHIFT+up",    hl.dsp.window.move({ direction = "up" }))
-hl.bind(mainMod .. "+SHIFT+down",  hl.dsp.window.move({ direction = "down" }))
-hl.bind(mainMod .. "+Q", hl.dsp.window.close())
-hl.bind(mainMod .. "+SPACE", hl.dsp.exec_cmd("rofi -show drun"))
-hl.unbind(mainMod .. "+E")
-hl.bind(mainMod .. "+E", hl.dsp.exec_cmd("nautilus"), { description = "Files: Nautilus" })
-hl.bind(mainMod .. "+Y", hl.dsp.exec_cmd("kitty -1 fish -c yazi"), { description = "Files: Yazi" })
-hl.bind(mainMod .. "+B", hl.dsp.exec_cmd("brave"))
-hl.bind(mainMod .. "+SHIFT+1", hl.dsp.window.move({ workspace = "1", follow = true }))
-hl.bind(mainMod .. "+SHIFT+2", hl.dsp.window.move({ workspace = "2", follow = true }))
-hl.bind(mainMod .. "+right", hl.dsp.window.cycle_next({ next = true }))
-hl.bind(mainMod .. "+left",  hl.dsp.window.cycle_next({ false }))
-hl.bind(mainMod .. "+down",  hl.dsp.window.cycle_next({ next = true }))
-hl.bind(mainMod .. "+up",    hl.dsp.window.cycle_next({ false }))
-for i = 1, 10 do
-  hl.bind(mainMod .. "+F" .. i, hl.dsp.window.move({ workspace = tostring(i), follow = true }))
-end
-LUAEOF
-    chmod u+w "$HOME/.config/hypr/custom/keybinds.lua"
-
-    cat > "$HOME/.config/hypr/custom/variables.lua" << 'LUAEOF'
-hl.env("qsConfig", "end4-pC")
-LUAEOF
-    chmod u+w "$HOME/.config/hypr/custom/variables.lua"
-
-    cat > "$HOME/.config/hypr/custom/late.lua" << 'LUAEOF'
-hl.config({
-  input = {
-    kb_layout = "fr",
-    touchpad = {
-      natural_scroll = true,
-    },
-    sensitivity = 0.5,
-    accel_profile = "flat",
-  },
-})
-
--- Glassmorphism: translucent windows with strong blur (loaded last, wins over shell defaults)
-hl.config({
-  decoration = {
-    active_opacity = 0.92,
-    inactive_opacity = 0.8,
-    blur = {
-      size = 10,
-      ignore_opacity = true,
-    },
-  },
-})
-
--- Brave: full opacity when active, like every other window when inactive
-hl.window_rule({ match = { class = "^(brave-browser)$" }, opacity = "1 0.8" })
-hl.window_rule({ match = { class = "^(brave)$" }, opacity = "1 0.8" })
-
--- btop: much more transparent so the blur shows through its very dark UI
-hl.window_rule({ match = { title = "^btop$" }, opacity = "0.55 0.45" })
-
--- Nautilus: gnome-style floating centered window, big but not fullscreen
-hl.window_rule({ match = { class = "^org.gnome.Nautilus$" }, float = true, center = true, size = { "(monitor_w*0.7)", "(monitor_h*0.75)" } })
-
--- Rofi launcher: blur behind it like the shell layers, clipped to its rounded shape
-hl.layer_rule({ match = { namespace = "rofi" }, blur = true, ignore_alpha = 0.1 })
-
-hl.gesture({
-    fingers = 3,
-    direction = "left",
-    action = function()
-        hl.dispatch(hl.dsp.focus({ workspace = "+1" }))
+    hl.unbind(mainMod .. "+RETURN")
+    hl.unbind(mainMod .. "+Return")
+    hl.bind(mainMod .. "+RETURN", hl.dsp.exec_cmd("kitty"))
+    hl.bind(mainMod .. "+A", hl.dsp.exec_cmd("qs -c end4-pC ipc call sidebarLeft toggle"), { description = "Left sidebar" })
+    hl.bind(mainMod .. "+N", hl.dsp.exec_cmd("qs -c end4-pC ipc call sidebarRight toggle"), { description = "Right sidebar" })
+    hl.bind(mainMod .. "+L", hl.dsp.exec_cmd("qs -c end4-pC ipc call lock activate"), { description = "Lock screen" })
+    hl.bind(mainMod .. "+Escape", hl.dsp.exec_cmd("qs -c end4-pC ipc call settingsToggle"), { description = "Settings" })
+    hl.bind(mainMod .. "+comma", hl.dsp.exec_cmd("qs -c end4-pC ipc call bar toggle"), { description = "Toggle bar" })
+    hl.bind(mainMod .. "+SHIFT+R", hl.dsp.exec_cmd("killall qs quickshell; qs -c end4-pC &"), { description = "Reload shell" })
+    hl.unbind(mainMod .. "+S")
+    hl.bind(mainMod .. "+S",
+      hl.dsp.exec_cmd([[mkdir -p ~/Pictures/Screenshots; f=~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png; grim -g "$(slurp)" "$f" && wl-copy < "$f"]]),
+      { description = "Screenshot region" })
+    hl.bind(mainMod .. "+V", hl.dsp.window.float({ action = "toggle" }))
+    hl.bind(mainMod .. "+F", hl.dsp.window.fullscreen({ action = "toggle" }))
+    hl.bind(mainMod .. "+U", hl.dsp.window.resize({ x = -50, y = 0 }))
+    hl.bind(mainMod .. "+I", hl.dsp.window.resize({ x = 50, y = 0 }))
+    hl.bind(mainMod .. "+O", hl.dsp.window.resize({ x = 0, y = -50 }))
+    hl.bind(mainMod .. "+P", hl.dsp.window.resize({ x = 0, y = 50 }))
+    hl.bind(mainMod .. "+ALT+left",  hl.dsp.window.swap({ direction = "left" }))
+    hl.bind(mainMod .. "+ALT+right", hl.dsp.window.swap({ direction = "right" }))
+    hl.bind(mainMod .. "+ALT+up",    hl.dsp.window.swap({ direction = "up" }))
+    hl.bind(mainMod .. "+ALT+down",  hl.dsp.window.swap({ direction = "down" }))
+    hl.bind(mainMod .. "+SHIFT+left",  hl.dsp.window.move({ direction = "left" }))
+    hl.bind(mainMod .. "+SHIFT+right", hl.dsp.window.move({ direction = "right" }))
+    hl.bind(mainMod .. "+SHIFT+up",    hl.dsp.window.move({ direction = "up" }))
+    hl.bind(mainMod .. "+SHIFT+down",  hl.dsp.window.move({ direction = "down" }))
+    hl.bind(mainMod .. "+Q", hl.dsp.window.close())
+    hl.bind(mainMod .. "+SPACE", hl.dsp.exec_cmd("rofi -show drun"))
+    hl.unbind(mainMod .. "+E")
+    hl.bind(mainMod .. "+E", hl.dsp.exec_cmd("nautilus"), { description = "Files: Nautilus" })
+    hl.bind(mainMod .. "+Y", hl.dsp.exec_cmd("kitty -1 fish -c yazi"), { description = "Files: Yazi" })
+    hl.bind(mainMod .. "+B", hl.dsp.exec_cmd("brave"))
+    hl.bind(mainMod .. "+SHIFT+1", hl.dsp.window.move({ workspace = "1", follow = true }))
+    hl.bind(mainMod .. "+SHIFT+2", hl.dsp.window.move({ workspace = "2", follow = true }))
+    hl.bind(mainMod .. "+right", hl.dsp.window.cycle_next({ next = true }))
+    hl.bind(mainMod .. "+left",  hl.dsp.window.cycle_next({ false }))
+    hl.bind(mainMod .. "+down",  hl.dsp.window.cycle_next({ next = true }))
+    hl.bind(mainMod .. "+up",    hl.dsp.window.cycle_next({ false }))
+    for i = 1, 10 do
+      hl.bind(mainMod .. "+F" .. i, hl.dsp.window.move({ workspace = tostring(i), follow = true }))
     end
-})
-hl.gesture({
-    fingers = 3,
-    direction = "right",
-    action = function()
-        hl.dispatch(hl.dsp.focus({ workspace = "-1" }))
-    end
-})
-LUAEOF
-    chmod u+w "$HOME/.config/hypr/custom/late.lua"
-    if ! grep -q 'require("custom.late")' "$HOME/.config/hypr/hyprland.lua" 2>/dev/null; then
-      echo 'require("custom.late")' >> "$HOME/.config/hypr/hyprland.lua"
-    fi
-    sed -i 's/action = "move"/action = "workspace"/' "$HOME/.config/hypr/hyprland/general.lua"
-    sed -i 's/direction = "swipe"/direction = "vertical"/' "$HOME/.config/hypr/hyprland/general.lua"
-    sed -i '/-- Disable blur for every window/,+1d' "$HOME/.config/hypr/hyprland/rules.lua"
+    LUAEOF
+        chmod u+w "$HOME/.config/hypr/custom/keybinds.lua"
+
+        cat > "$HOME/.config/hypr/custom/variables.lua" << 'LUAEOF'
+    hl.env("qsConfig", "end4-pC")
+    LUAEOF
+        chmod u+w "$HOME/.config/hypr/custom/variables.lua"
+
+        cat > "$HOME/.config/hypr/custom/late.lua" << 'LUAEOF'
+    hl.config({
+      input = {
+        kb_layout = "fr",
+        touchpad = {
+          natural_scroll = true,
+        },
+        sensitivity = 0.5,
+        accel_profile = "flat",
+      },
+    })
+
+    -- Glassmorphism: translucent windows with strong blur (loaded last, wins over shell defaults)
+    hl.config({
+      decoration = {
+        active_opacity = 0.92,
+        inactive_opacity = 0.8,
+        blur = {
+          size = 10,
+          ignore_opacity = true,
+        },
+      },
+    })
+
+    -- Brave: full opacity when active, like every other window when inactive
+    hl.window_rule({ match = { class = "^(brave-browser)$" }, opacity = "1 0.8" })
+    hl.window_rule({ match = { class = "^(brave)$" }, opacity = "1 0.8" })
+
+    -- btop: much more transparent so the blur shows through its very dark UI
+    hl.window_rule({ match = { title = "^btop$" }, opacity = "0.55 0.45" })
+
+    -- Rofi launcher: blur behind it like the shell layers, clipped to its rounded shape
+    hl.layer_rule({ match = { namespace = "rofi" }, blur = true, ignore_alpha = 0.1 })
+
+    hl.gesture({
+        fingers = 3,
+        direction = "left",
+        action = function()
+            hl.dispatch(hl.dsp.focus({ workspace = "+1" }))
+        end
+    })
+    hl.gesture({
+        fingers = 3,
+        direction = "right",
+        action = function()
+            hl.dispatch(hl.dsp.focus({ workspace = "-1" }))
+        end
+    })
+    LUAEOF
+        chmod u+w "$HOME/.config/hypr/custom/late.lua"
+        if ! grep -q 'require("custom.late")' "$HOME/.config/hypr/hyprland.lua" 2>/dev/null; then
+          echo 'require("custom.late")' >> "$HOME/.config/hypr/hyprland.lua"
+        fi
+        sed -i 's/action = "move"/action = "workspace"/' "$HOME/.config/hypr/hyprland/general.lua"
+        sed -i 's/direction = "swipe"/direction = "vertical"/' "$HOME/.config/hypr/hyprland/general.lua"
+        sed -i '/-- Disable blur for every window/,+1d' "$HOME/.config/hypr/hyprland/rules.lua"
+        sed -i 's|hyprctl setcursor [^ ]* [0-9]*|hyprctl setcursor pikachu-cursor 24|' "$HOME/.config/hypr/hyprland/execs.lua"
+        if ! grep -q 'XCURSOR_THEME' "$HOME/.config/hypr/hyprland/env.lua" 2>/dev/null; then
+          printf '\nhl.env("XCURSOR_THEME", "pikachu-cursor")\nhl.env("XCURSOR_SIZE", "24")\n' >> "$HOME/.config/hypr/hyprland/env.lua"
+        fi
   '';
 
   home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
@@ -168,7 +174,7 @@ LUAEOF
       cursor_trail = 3;
       cursor_trail_decay = "0.1 0.45";
       cursor_trail_start_threshold = 2;
-      background_opacity = "0.75";   # lower = more transparent
+      background_opacity = "0.75"; # lower = more transparent
       dynamic_background_opacity = "yes";
     };
     extraConfig = ''
@@ -181,36 +187,36 @@ LUAEOF
   xdg.configFile."rofi/config.rasi" = {
     force = true;
     text = ''
-    @theme "/home/cocofioren/.local/share/rofi/themes/rounded-green-dark.rasi"
+      @theme "/home/cocofioren/.local/share/rofi/themes/rounded-green-dark.rasi"
 
-    configuration {
-      show-icons: true;
-      icon-theme: "Papirus-Dark";
-      drun-display-format: "{icon} {name}";
-      display-drun: "Apps";
-    }
-  '';
+      configuration {
+        show-icons: true;
+        icon-theme: "Papirus-Dark";
+        drun-display-format: "{icon} {name}";
+        display-drun: "Apps";
+      }
+    '';
   };
 
   home.file.".local/share/rofi/themes/rounded-green-dark.rasi" = {
     force = true;
     text = ''
-    /* ROUNDED THEME FOR ROFI */
-    /* Author: Newman Sanchez (https://github.com/newmanls) */
+      /* ROUNDED THEME FOR ROFI */
+      /* Author: Newman Sanchez (https://github.com/newmanls) */
 
-    * {
-        bg0:    #212121A0;
-        bg1:    #2A2A2A;
-        bg2:    #3D3D3D80;
-        bg3:    #4CAF50F2;
-        fg0:    #E6E6E6;
-        fg1:    #FFFFFF;
-        fg2:    #969696;
-        fg3:    #3D3D3D;
-    }
+      * {
+          bg0:    #212121A0;
+          bg1:    #2A2A2A;
+          bg2:    #3D3D3D80;
+          bg3:    #4CAF50F2;
+          fg0:    #E6E6E6;
+          fg1:    #FFFFFF;
+          fg2:    #969696;
+          fg3:    #3D3D3D;
+      }
 
-    @import "template/rounded-template.rasi"
-  '';
+      @import "template/rounded-template.rasi"
+    '';
   };
 
   xdg.configFile."gtk-3.0/settings.ini".force = true;
@@ -807,9 +813,16 @@ LUAEOF
     '';
   };
 
+  home.file.".icons/pikachu-cursor" = {
+    source = ./cursors/pikachu;
+    recursive = true;
+  };
+
   home.sessionVariables = {
     GTK_THEME = "Adwaita:dark";
     ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
+    XCURSOR_THEME = "pikachu-cursor";
+    XCURSOR_SIZE = "24";
   };
 
   programs.git = {
