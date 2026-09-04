@@ -88,6 +88,34 @@ LUAEOF
     fi
     sed -i "s/primary_paletteKeyColor/primaryPaletteKeyColor/" "$HOME/.config/quickshell/end4-pC/scripts/colors/generate_colors_material.py"
   '';
+  systemd.user.services.audio-volume-boost = {
+    Unit = {
+      Description = "Boost built-in audio volume to 150%";
+      After = [ "wireplumber.service" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = ''
+        ${pkgs.bash}/bin/bash -c '
+          export PATH=/run/current-system/sw/bin:$PATH
+          for i in $(seq 1 30); do
+            id=$(wpctl status | sed -n "/Sinks:/,/Sources:/p" | grep "Built-in Audio Analog Stereo" | grep -oE "[0-9]+" | head -1)
+            if [ -n "$id" ]; then
+              sleep 2
+              wpctl set-volume "$id" 1.5
+              exit 0
+            fi
+            sleep 1
+          done
+          exit 1
+        '
+      '';
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
   programs.illogical-impulse.enable = true;
 
   programs.kitty = {
