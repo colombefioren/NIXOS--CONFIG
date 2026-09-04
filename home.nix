@@ -216,6 +216,56 @@ LUAEOF
   xdg.configFile."gtk-3.0/settings.ini".force = true;
   xdg.configFile."gtk-4.0/settings.ini".force = true;
 
+  xdg.configFile."gtk-4.0/gtk.css" = {
+    force = true;
+    text = ''
+      /* Dark green palette for libadwaita apps (Nautilus, etc.) */
+      @define-color accent_color #4caf7d;
+      @define-color accent_bg_color #2f6b47;
+      @define-color accent_fg_color #ffffff;
+
+      @define-color window_bg_color #10160f;
+      @define-color window_fg_color #d9e6dc;
+
+      @define-color view_bg_color #141d16;
+      @define-color view_fg_color #d9e6dc;
+
+      @define-color headerbar_bg_color #141d16;
+      @define-color headerbar_fg_color #d9e6dc;
+      @define-color headerbar_backdrop_color #10160f;
+      @define-color headerbar_shade_color rgba(0,0,0,0.36);
+
+      @define-color sidebar_bg_color #0c1210;
+      @define-color sidebar_fg_color #cfe0d3;
+      @define-color sidebar_backdrop_color #0c1210;
+
+      @define-color popover_bg_color #182119;
+      @define-color popover_fg_color #d9e6dc;
+      @define-color popover_shade_color rgba(0,0,0,0.28);
+
+      @define-color card_bg_color #172018;
+      @define-color card_fg_color #d9e6dc;
+
+      @define-color dialog_bg_color #141d16;
+      @define-color dialog_fg_color #d9e6dc;
+
+      @define-color border_color rgba(255,255,255,0.09);
+      @define-color shade_color rgba(0,0,0,0.28);
+
+      /* Round + shadow the actual popup surface */
+      popover > contents {
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+      }
+      popover.menu > contents {
+        padding: 4px;
+      }
+      .card, dialog > .background, window.dialog > .background {
+        border-radius: 14px;
+      }
+    '';
+  };
+
   gtk = {
     enable = true;
     gtk3 = {
@@ -279,6 +329,7 @@ LUAEOF
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
+        accent-color = "green";
       };
       "org/gnome/nautilus/preferences" = {
         click-policy = "single";
