@@ -182,6 +182,12 @@ LUAEOF
     };
   };
 
+  programs.fetch = {
+    enable = true;
+    labelColor = "cyan";
+    speed = 1.0;
+  };
+
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
@@ -211,6 +217,12 @@ LUAEOF
       wvid = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/wallpaper.mp4 >/dev/null 2>&1";
       wpic = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/pokemon.png >/dev/null 2>&1";
     };
+
+    initExtra = ''
+      if command -v fetch >/dev/null 2>&1 && [ -t 1 ] && [ -n "$WAYLAND_DISPLAY" ]; then
+        fetch
+      fi
+    '';
 
     profileExtra = ''
       if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
