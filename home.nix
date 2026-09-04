@@ -219,176 +219,328 @@ LUAEOF
   xdg.configFile."gtk-4.0/gtk.css" = {
     force = true;
     text = ''
-      /* ── Accent + palette ─────────────────────────────────────── */
-      @define-color accent_color #4caf7d;
-      @define-color accent_bg_color #2f6b47;
-      @define-color accent_fg_color #ffffff;
-      @define-color window_bg_color #10160f;
-      @define-color window_fg_color #d9e6dc;
-      @define-color view_bg_color #141d16;
-      @define-color view_fg_color #d9e6dc;
-      @define-color headerbar_bg_color #141d16;
-      @define-color headerbar_fg_color #d9e6dc;
-      @define-color headerbar_backdrop_color #10160f;
-      @define-color headerbar_shade_color rgba(0,0,0,0.36);
-      @define-color sidebar_bg_color #0c1210;
-      @define-color sidebar_fg_color #cfe0d3;
-      @define-color sidebar_backdrop_color #0c1210;
-      @define-color popover_bg_color #182119;
-      @define-color popover_fg_color #d9e6dc;
-      @define-color popover_shade_color rgba(0,0,0,0.28);
-      @define-color card_bg_color #172018;
-      @define-color card_fg_color #d9e6dc;
-      @define-color dialog_bg_color #141d16;
-      @define-color dialog_fg_color #d9e6dc;
-      @define-color border_color rgba(255,255,255,0.09);
-      @define-color shade_color rgba(0,0,0,0.28);
+      /* ════════════════════════════════════════════════════════════
+         Monochrome libadwaita palette (Nautilus + all GTK4 apps)
+         Neutral grays — no accent color, pure tonal design.
+      ════════════════════════════════════════════════════════════ */
 
-      /* ── Popovers: round + shadow + padding ───────────────────── */
+      /* ── Core palette (monochrome, warm-neutral tint) ─────────── */
+      @define-color accent_color #e8e8e8;
+      @define-color accent_bg_color #6b6b6b;
+      @define-color accent_fg_color #ffffff;
+
+      @define-color window_bg_color #111113;
+      @define-color window_fg_color #dcdcdc;
+
+      @define-color view_bg_color #151517;
+      @define-color view_fg_color #dcdcdc;
+
+      @define-color headerbar_bg_color #18181b;
+      @define-color headerbar_fg_color #e2e2e2;
+      @define-color headerbar_backdrop_color #111113;
+      @define-color headerbar_shade_color rgba(0,0,0,0.35);
+
+      @define-color sidebar_bg_color #0d0d0f;
+      @define-color sidebar_fg_color #bfc0c2;
+      @define-color sidebar_backdrop_color #0d0d0f;
+
+      @define-color popover_bg_color #1c1c1f;
+      @define-color popover_fg_color #dcdcdc;
+      @define-color popover_shade_color rgba(0,0,0,0.3);
+
+      @define-color card_bg_color #18181b;
+      @define-color card_fg_color #dcdcdc;
+
+      @define-color dialog_bg_color #18181b;
+      @define-color dialog_fg_color #dcdcdc;
+
+      @define-color border_color rgba(255,255,255,0.08);
+      @define-color shade_color rgba(0,0,0,0.3);
+
+      /* Uniform surface — every section (Home, Starred, Network…)
+         renders on the same view tone so nothing looks flat/dull. */
+      .view,
+      list,
+      listview,
+      treeview.view,
+      .content-view,
+      window.background,
+      window > .background,
+      .background {
+        background-color: @window_bg_color;
+        color: @window_fg_color;
+      }
+      .view.background,
+      .treeview.view,
+      .content-view.view {
+        background-color: @view_bg_color;
+        color: @view_fg_color;
+      }
+
+      /* ════════════════════════════════════════════════════════════
+         HEADERBAR — clean, rounded, well-spaced
+      ════════════════════════════════════════════════════════════ */
+      headerbar,
+      .nautilus-window headerbar,
+      .nautilus-window headerbar.background,
+      window > headerbar.background {
+        background-color: @headerbar_bg_color;
+        color: @headerbar_fg_color;
+        border: none;
+        border-bottom: 1px solid @border_color;
+        box-shadow: none;
+        padding: 6px 12px;
+        min-height: 52px;
+      }
+      headerbar .title,
+      .titlebar .title {
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+        color: @headerbar_fg_color;
+      }
+      headerbar image,
+      headerbar button {
+        -gtk-icon-style: regular;
+      }
+      .nautilus-path-bar {
+        margin: 0 8px;
+        padding: 2px;
+      }
+      .nautilus-path-bar button {
+        border-radius: 9px;
+        padding: 5px 14px;
+        margin: 0 1px;
+        min-height: 30px;
+        font-weight: 500;
+        border: 1px solid transparent;
+      }
+      .nautilus-path-bar button:hover {
+        background-color: rgba(255,255,255,0.06);
+        border-color: @border_color;
+      }
+      .nautilus-path-bar button:checked,
+      .nautilus-path-bar button.active {
+        background-color: rgba(255,255,255,0.1);
+        color: #ffffff;
+        border-color: @border_color;
+        font-weight: 600;
+      }
+
+      /* ════════════════════════════════════════════════════════════
+         SIDEBAR — subtle, seamless across all bookmarks
+      ════════════════════════════════════════════════════════════ */
+      .sidebar,
+      navigation.sidebar,
+      .navigation-sidebar,
+      .nautilus-window .sidebar,
+      .nautilus-window navigation.sidebar {
+        background-color: @sidebar_bg_color;
+        color: @sidebar_fg_color;
+        border: none;
+        border-right: 1px solid @border_color;
+      }
+      .sidebar row,
+      navigation.sidebar row {
+        border-radius: 8px;
+        margin: 1px 6px;
+        padding: 7px 10px;
+        min-height: 30px;
+        color: @sidebar_fg_color;
+      }
+      .sidebar row:hover,
+      navigation.sidebar row:hover {
+        background-color: rgba(255,255,255,0.05);
+      }
+      .sidebar row:selected,
+      navigation.sidebar row:selected,
+      .sidebar row:active {
+        background-color: rgba(255,255,255,0.12);
+        color: #ffffff;
+        font-weight: 600;
+      }
+      .sidebar row image {
+        color: #9a9b9e;
+      }
+      .sidebar row:selected image {
+        color: #ffffff;
+      }
+
+      /* ════════════════════════════════════════════════════════════
+         POPOVERS & MENUS — truly rounded, spaced, padded
+      ════════════════════════════════════════════════════════════ */
       popover,
-      popover.background,
-      popover.background:not(.menu) {
+      popover.background {
         border-radius: 14px;
-        margin: 8px;
+        margin: 10px;
         padding: 0;
+        background-color: transparent;
+        box-shadow: none;
       }
       popover > contents,
       popover.background > contents {
         border-radius: 14px;
-        box-shadow: 0 12px 40px rgba(0,0,0,0.55),
-                    0 2px 8px rgba(0,0,0,0.3),
-                    0 0 0 1px rgba(255,255,255,0.06);
+        background-color: @popover_bg_color;
+        color: @popover_fg_color;
+        padding: 6px;
+        box-shadow: 0 18px 50px rgba(0,0,0,0.6),
+                    0 4px 14px rgba(0,0,0,0.35),
+                    0 0 0 1px rgba(255,255,255,0.07);
+      }
+      popover.menu > contents,
+      popover.menu.background > contents {
+        border-radius: 14px;
         background-color: @popover_bg_color;
         padding: 6px;
+        box-shadow: 0 18px 50px rgba(0,0,0,0.6),
+                    0 4px 14px rgba(0,0,0,0.35),
+                    0 0 0 1px rgba(255,255,255,0.07);
       }
       popover > contents > box,
       popover.background > contents > box {
         padding: 4px;
       }
-
-      /* Right-click context menus */
-      popover.menu,
-      popover.menu.background {
-        border-radius: 14px;
-        padding: 0;
-      }
-      popover.menu > contents,
-      popover.menu.background > contents {
-        border-radius: 14px;
-        box-shadow: 0 12px 40px rgba(0,0,0,0.55),
-                    0 2px 8px rgba(0,0,0,0.3),
-                    0 0 0 1px rgba(255,255,255,0.06);
-        background-color: @popover_bg_color;
-        padding: 6px;
-      }
-      popover.menu > contents > box,
-      popover.menu.background > contents > box {
-        padding: 4px;
-      }
-
-      /* ── Menu items: spacing + hover ──────────────────────────── */
       popover.background menuitem,
-      popover.background button.model {
-        border-radius: 10px;
-        padding: 6px 12px;
+      popover.background button.model,
+      popover.background popover menu menuitem {
+        border-radius: 9px;
+        padding: 7px 12px;
         margin: 1px 2px;
-        min-height: 32px;
+        min-height: 30px;
+        color: @popover_fg_color;
+        font-size: 13.5px;
       }
       popover.background menuitem:hover,
       popover.background button.model:hover {
-        background-color: @accent_bg_color;
+        background-color: rgba(255,255,255,0.08);
       }
-      popover.background separator {
-        margin: 4px 8px;
+      popover.background menuitem:disabled {
+        color: rgba(220,220,220,0.4);
+      }
+      popover.background separator,
+      popover.background > contents separator {
+        min-height: 1px;
+        margin: 5px 10px;
         background-color: @border_color;
       }
 
-      /* ── Cards ────────────────────────────────────────────────── */
-      .card,
-      .card.background,
-      list > row,
-      box.card {
-        border-radius: 14px;
-        border: 1px solid @border_color;
-        background-color: @card_bg_color;
-      }
-      list > row:selected {
-        background-color: alpha(@accent_color, 0.15);
-      }
-      list > row:hover {
-        background-color: alpha(@accent_color, 0.06);
-      }
-
-      /* ── Dialogs ──────────────────────────────────────────────── */
+      /* ════════════════════════════════════════════════════════════
+         DIALOGS — the pinnacle: rounded, spacious, padded
+         (delete confirmation, prompts, etc.)
+      ════════════════════════════════════════════════════════════ */
       dialog,
       dialog.background,
+      message-dialog.background,
       window.dialog,
-      window.dialog > .background {
-        border-radius: 16px;
+      window.dialog > .background,
+      .dialog.background {
+        border-radius: 18px;
+        background-color: @dialog_bg_color;
         border: 1px solid @border_color;
+        box-shadow: 0 24px 70px rgba(0,0,0,0.65),
+                    0 6px 20px rgba(0,0,0,0.4);
       }
-      dialog .dialog-action-area button {
+      dialog > .dialog-vbox,
+      dialog .dialog-vbox {
+        padding: 24px 24px 8px 24px;
+      }
+      dialog .dialog-vbox image {
+        margin-bottom: 12px;
+        opacity: 0.9;
+      }
+      dialog .dialog-vbox label.title,
+      message-dialog .dialog-vbox label.title {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      dialog .dialog-vbox label,
+      message-dialog .dialog-vbox label {
+        font-size: 13.5px;
+        color: rgba(220,220,220,0.9);
+        line-height: 1.5;
+      }
+      dialog .dialog-action-area,
+      message-dialog .dialog-action-area {
+        padding: 10px 24px 20px 24px;
+        border-top: 1px solid @border_color;
+        background-clip: padding-box;
+      }
+      dialog .dialog-action-area button,
+      message-dialog .dialog-action-area button {
         border-radius: 10px;
         margin: 4px;
-        padding: 6px 16px;
-        min-height: 34px;
+        padding: 8px 20px;
+        min-height: 36px;
+        min-width: 100px;
+        font-weight: 600;
       }
-      dialog .dialog-action-area button:not(:last-child) {
+      dialog .dialog-action-area button:not(:last-child),
+      message-dialog .dialog-action-area button:not(:last-child) {
         margin-right: 2px;
       }
 
-      /* ── Buttons ──────────────────────────────────────────────── */
+      /* ════════════════════════════════════════════════════════════
+         BUTTONS — consistent, tactile
+      ════════════════════════════════════════════════════════════ */
       button {
-        border-radius: 10px;
-        padding: 5px 14px;
+        border-radius: 9px;
+        padding: 6px 14px;
         min-height: 30px;
-        transition: background 150ms ease, box-shadow 150ms ease;
+        border: 1px solid @border_color;
+        color: @window_fg_color;
+        background-color: rgba(255,255,255,0.03);
+        transition: background 150ms ease, border-color 150ms ease;
+      }
+      button:hover {
+        background-color: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.14);
+      }
+      button:active {
+        background-color: rgba(255,255,255,0.12);
+      }
+      button:checked,
+      button:checked:hover {
+        background-color: rgba(255,255,255,0.16);
+        color: #ffffff;
       }
       button.suggested-action,
       button.suggested-action.background {
         background-color: @accent_bg_color;
         color: @accent_fg_color;
+        border: none;
       }
       button.suggested-action:hover {
-        background-color: shade(@accent_bg_color, 1.15);
+        background-color: #7d7d7d;
       }
       button.destructive-action,
       button.destructive-action.background {
-        background-color: #a83242;
+        background-color: #b0413e;
         color: #ffffff;
+        border: none;
+      }
+      button.destructive-action:hover {
+        background-color: #c0504c;
+      }
+      button.flat {
+        background-color: transparent;
+        border-color: transparent;
+      }
+      button.flat:hover {
+        background-color: rgba(255,255,255,0.07);
+      }
+      button:focus-visible {
+        outline: 2px solid rgba(255,255,255,0.4);
+        outline-offset: 2px;
       }
 
-      /* ── Nautilus headerbar ───────────────────────────────────── */
-      .nautilus-window headerbar,
-      .nautilus-window headerbar.background {
-        border-radius: 0;
-        border-bottom: 1px solid @border_color;
-        padding: 4px 8px;
-        min-height: 46px;
-      }
-
-      /* ── Nautilus path bar pills ──────────────────────────────── */
-      .nautilus-path-bar button {
-        border-radius: 8px;
-        padding: 4px 12px;
-        margin: 2px;
-      }
-      .nautilus-path-bar button:checked {
-        background-color: alpha(@accent_color, 0.18);
-        color: @accent_color;
-      }
-      .nautilus-path-bar button label {
-        font-weight: 600;
-      }
-
-      /* ── Nautilus file grid ───────────────────────────────────── */
+      /* ════════════════════════════════════════════════════════════
+         FILE GRID & LIST — airy, rounded, uniform background
+      ════════════════════════════════════════════════════════════ */
       .nautilus-grid-view,
       .nautilus-list-view {
-        background-color: @view_bg_color;
-      }
-      .nautilus-grid-view .view,
-      .nautilus-grid-view {
-        padding: 8px;
+        background-color: @window_bg_color;
+        padding: 12px;
       }
       .nautilus-grid-view > child {
         border-radius: 12px;
@@ -396,95 +548,70 @@ LUAEOF
         transition: background 150ms ease;
       }
       .nautilus-grid-view > child:hover {
-        background-color: alpha(@accent_color, 0.06);
+        background-color: rgba(255,255,255,0.05);
       }
       .nautilus-grid-view > child:selected {
-        background-color: alpha(@accent_color, 0.15);
+        background-color: rgba(255,255,255,0.12);
       }
       .nautilus-grid-view > child label {
         font-size: 13px;
+        color: rgba(220,220,220,0.85);
       }
-
-      /* ── Nautilus list rows ───────────────────────────────────── */
+      .nautilus-grid-view > child:selected label {
+        color: #ffffff;
+        font-weight: 600;
+      }
       .nautilus-list-view list row {
-        border-radius: 8px;
-        padding: 4px 12px;
+        border-radius: 9px;
+        padding: 5px 12px;
         margin: 1px 4px;
-        min-height: 36px;
+        min-height: 38px;
+        background-color: transparent;
       }
       .nautilus-list-view list row:hover {
-        background-color: alpha(@accent_color, 0.06);
+        background-color: rgba(255,255,255,0.05);
       }
       .nautilus-list-view list row:selected {
-        background-color: alpha(@accent_color, 0.15);
+        background-color: rgba(255,255,255,0.12);
       }
 
-      /* ── Nautilus sidebar ─────────────────────────────────────── */
-      .nautilus-window .sidebar,
-      .nautilus-window navigation.sidebar,
-      .nautilus-window .navigation-sidebar {
-        background-color: @sidebar_bg_color;
-        border-right: 1px solid @border_color;
-      }
-      .nautilus-window .sidebar row,
-      .nautilus-window navigation.sidebar row {
-        border-radius: 8px;
-        margin: 1px 6px;
-        padding: 6px 10px;
-        min-height: 32px;
-      }
-      .nautilus-window .sidebar row:hover,
-      .nautilus-window navigation.sidebar row:hover {
-        background-color: alpha(@accent_color, 0.08);
-      }
-      .nautilus-window .sidebar row:selected,
-      .nautilus-window navigation.sidebar row:selected {
-        background-color: alpha(@accent_color, 0.16);
-        color: @accent_color;
+      /* Placeholder / empty-state (Starred, Network empty sections) */
+      .nautilus-window .empty-state,
+      .empty-state,
+      .content-view .view + .empty-state {
+        background-color: @window_bg_color;
+        color: rgba(220,220,220,0.6);
       }
 
-      /* ── Nautilus search bar ──────────────────────────────────── */
+      /* ════════════════════════════════════════════════════════════
+         SEARCH BAR
+      ════════════════════════════════════════════════════════════ */
       .nautilus-window searchbar,
       .nautilus-window .searchbar {
         background-color: @window_bg_color;
         border-bottom: 1px solid @border_color;
-        padding: 8px 12px;
-        border-radius: 0;
+        padding: 10px 14px;
       }
       .nautilus-window searchbar > box,
       .nautilus-window .searchbar > box {
-        border-radius: 10px;
+        border-radius: 11px;
         background-color: @view_bg_color;
         border: 1px solid @border_color;
-        padding: 2px 8px;
+        padding: 3px 10px;
       }
 
-      /* ── Nautilus statusbar ───────────────────────────────────── */
-      .nautilus-window .statusbar,
-      .nautilus-window toolbarbar.bottom-bar {
-        border-top: 1px solid @border_color;
-        padding: 4px 12px;
-      }
-
-      /* ── Nautilus info pane ───────────────────────────────────── */
-      .nautilus-window .floating-bar,
-      .nautilus-window .info-bar {
-        border-radius: 8px;
-        margin: 4px 8px;
-      }
-
-      /* ── Tooltip ──────────────────────────────────────────────── */
+      /* ════════════════════════════════════════════════════════════
+         TOOLTIPS, SCROLLBARS, SWITCHES, SLIDERS
+      ════════════════════════════════════════════════════════════ */
       tooltip,
       tooltip.background,
       tooltip.background > contents {
-        border-radius: 10px;
+        border-radius: 9px;
         padding: 6px 10px;
         background-color: @popover_bg_color;
         border: 1px solid @border_color;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.45);
       }
-
-      /* ── Scrollbar ────────────────────────────────────────────── */
       scrollbar {
         background-color: transparent;
       }
@@ -492,66 +619,114 @@ LUAEOF
         border-radius: 999px;
         min-width: 6px;
         min-height: 6px;
-        margin: 2px;
+        margin: 3px;
+        background-color: rgba(255,255,255,0.2);
         transition: background 200ms ease;
       }
       scrollbar slider:hover {
-        background-color: alpha(@accent_color, 0.4);
+        background-color: rgba(255,255,255,0.35);
       }
-      scrollbar slider:active {
-        background-color: alpha(@accent_color, 0.6);
-      }
-
-      /* ── Selection / highlight ────────────────────────────────── */
-      selection,
-      selection:focus {
-        background-color: alpha(@accent_color, 0.3);
-        color: @accent_fg_color;
-      }
-      textview text {
-        caret-color: @accent_color;
-      }
-
-      /* ── Switch / toggle ──────────────────────────────────────── */
       switch {
         border-radius: 999px;
         min-width: 46px;
         min-height: 24px;
+        background-color: rgba(255,255,255,0.18);
+        border: none;
       }
       switch:checked {
         background-color: @accent_bg_color;
       }
-
-      /* ── Scale (sliders) ──────────────────────────────────────── */
+      switch slider {
+        border-radius: 999px;
+        min-width: 20px;
+        min-height: 20px;
+        background-color: #ffffff;
+        margin: 2px;
+      }
       scale slider {
         border-radius: 999px;
         min-width: 18px;
         min-height: 18px;
+        background-color: #ffffff;
+        border: none;
       }
       scale trough {
         border-radius: 999px;
         min-height: 6px;
+        background-color: rgba(255,255,255,0.15);
+      }
+      scale highlight,
+      scale trough highlight {
+        border-radius: 999px;
+        background-color: @accent_bg_color;
       }
 
-      /* ── Tab bar ──────────────────────────────────────────────── */
+      /* ════════════════════════════════════════════════════════════
+         TABS & CARDS
+      ════════════════════════════════════════════════════════════ */
       tab {
         border-radius: 10px 10px 0 0;
-        padding: 6px 16px;
+        padding: 7px 18px;
       }
       tab:checked {
         background-color: @window_bg_color;
-        border-bottom: 2px solid @accent_color;
+        border-bottom: 2px solid rgba(255,255,255,0.7);
+        color: #ffffff;
+      }
+      .card,
+      .card.background,
+      box.card {
+        border-radius: 14px;
+        border: 1px solid @border_color;
+        background-color: @card_bg_color;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      }
+      list > row {
+        border-radius: 9px;
+        border: 1px solid transparent;
+      }
+      list > row:selected {
+        background-color: rgba(255,255,255,0.12);
+        border-color: @border_color;
+      }
+      list > row:hover {
+        background-color: rgba(255,255,255,0.05);
       }
 
-      /* ── Misc polish ──────────────────────────────────────────── */
+      /* ════════════════════════════════════════════════════════════
+         SELECTION & CARET
+      ════════════════════════════════════════════════════════════ */
+      selection,
+      selection:focus {
+        background-color: #555555;
+        color: #ffffff;
+      }
+      textview text {
+        caret-color: #ffffff;
+      }
+
+      /* ════════════════════════════════════════════════════════════
+         STATUS / INFO BARS
+      ════════════════════════════════════════════════════════════ */
+      .nautilus-window .statusbar,
+      .nautilus-window toolbarbar.bottom-bar {
+        border-top: 1px solid @border_color;
+        padding: 5px 14px;
+        color: rgba(220,220,220,0.7);
+      }
+      .nautilus-window .floating-bar,
+      .nautilus-window .info-bar {
+        border-radius: 12px;
+        margin: 8px 12px;
+        padding: 10px 16px;
+        background-color: @popover_bg_color;
+        border: 1px solid @border_color;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+      }
+
+      /* ── Focus / outline polish ───────────────────────────────── */
       .titlebar:not(headerbar) {
         border-radius: 0;
-      }
-      .text-button:focus-visible,
-      .text-button:hover,
-      button:focus-visible {
-        outline: 2px solid alpha(@accent_color, 0.5);
-        outline-offset: 2px;
       }
     '';
   };
@@ -619,7 +794,6 @@ LUAEOF
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
-        accent-color = "green";
       };
       "org/gnome/nautilus/preferences" = {
         click-policy = "single";
