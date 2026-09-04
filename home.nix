@@ -104,6 +104,9 @@ hl.window_rule({ match = { title = "^btop$" }, opacity = "0.55 0.45" })
 -- Nautilus: gnome-style floating centered window, big but not fullscreen
 hl.window_rule({ match = { class = "^org.gnome.Nautilus$" }, float = true, center = true, size = { "(monitor_w*0.7)", "(monitor_h*0.75)" } })
 
+-- Rofi launcher: blur behind it like the shell layers
+hl.layer_rule({ match = { namespace = "rofi" }, blur = true })
+
 hl.gesture({
     fingers = 3,
     direction = "left",
@@ -174,6 +177,35 @@ LUAEOF
   };
 
   xdg.configFile."kitty/kitty.conf".force = true;
+
+  xdg.configFile."rofi/config.rasi".text = ''
+    @theme "/home/cocofioren/.local/share/rofi/themes/rounded-green-dark.rasi"
+
+    configuration {
+      show-icons: true;
+      icon-theme: "Papirus-Dark";
+      drun-display-format: "{icon} {name}";
+      display-drun: "Apps";
+    }
+  '';
+
+  home.file."local/share/rofi/themes/rounded-green-dark.rasi".text = ''
+    /* ROUNDED THEME FOR ROFI */
+    /* Author: Newman Sanchez (https://github.com/newmanls) */
+
+    * {
+        bg0:    #212121A0;
+        bg1:    #2A2A2A;
+        bg2:    #3D3D3D80;
+        bg3:    #4CAF50F2;
+        fg0:    #E6E6E6;
+        fg1:    #FFFFFF;
+        fg2:    #969696;
+        fg3:    #3D3D3D;
+    }
+
+    @import "template/rounded-template.rasi"
+  '';
 
   gtk = {
     enable = true;
