@@ -174,7 +174,7 @@ LUAEOF
     enable = true;
     gtk3 = {
       iconTheme = {
-        name = "OneUI-dark";
+        name = "Papirus-Dark";
       };
       extraConfig = {
         gtk-application-prefer-dark-theme = 1;
@@ -182,13 +182,18 @@ LUAEOF
     };
     gtk4 = {
       iconTheme = {
-        name = "OneUI-dark";
+        name = "Papirus-Dark";
       };
       extraConfig = {
         gtk-application-prefer-dark-theme = 1;
       };
     };
   };
+
+  home.file."qt6ct/qt6ct.conf".text = ''
+    [Appearance]
+    icon_theme=Papirus-Dark
+  '';
 
   programs.git = {
     enable = true;
@@ -281,6 +286,7 @@ LUAEOF
     fzf
     zoxide
     nautilus
+    cmatrix
 
     git
     gh
