@@ -73,6 +73,11 @@ LUAEOF
     chmod u+w "$HOME/.config/hypr/custom/keybinds.lua"
   '';
 
+  home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
+    if [ ! -d "$HOME/.config/quickshell/end4-pC/.git" ]; then
+      $DRY_RUN_CMD ${pkgs.git}/bin/git clone --depth 1 https://github.com/pctrade/end4-pC.git "$HOME/.config/quickshell/end4-pC" || true
+    fi
+  '';
   programs.illogical-impulse.enable = true;
 
   programs.kitty = {
