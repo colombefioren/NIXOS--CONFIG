@@ -247,6 +247,11 @@ LUAEOF
     '';
   };
 
+  home.sessionVariables = {
+    GTK_THEME = "Adwaita:dark";
+    ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
+  };
+
   programs.git = {
     enable = true;
 
@@ -273,6 +278,7 @@ LUAEOF
     settings = {
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
+        gtk-theme = "Adwaita-dark";
       };
       "org/gnome/nautilus/preferences" = {
         click-policy = "single";
