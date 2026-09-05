@@ -13,6 +13,8 @@
 
   home.activation.writeMyHyprKeybinds = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
         mkdir -p "$HOME/.config/hypr/custom"
+        # The shell binds SUPER+B to the left AI sidebar; it collides with our SUPER+B -> brave, so drop it.
+        sed -i '/hl.bind("SUPER + B"/d' "$HOME/.config/hypr/hyprland/keybinds.lua"
         cat > "$HOME/.config/hypr/custom/keybinds.lua" << 'LUAEOF'
     local mainMod = "SUPER"
 
