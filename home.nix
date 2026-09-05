@@ -132,9 +132,9 @@
         sed -i 's/action = "move"/action = "workspace"/' "$HOME/.config/hypr/hyprland/general.lua"
         sed -i 's/direction = "swipe"/direction = "vertical"/' "$HOME/.config/hypr/hyprland/general.lua"
         sed -i '/-- Disable blur for every window/,+1d' "$HOME/.config/hypr/hyprland/rules.lua"
-        sed -i 's|hyprctl setcursor [^ ]* [0-9]*|hyprctl setcursor pikachu-cursor2 24|' "$HOME/.config/hypr/hyprland/execs.lua"
+        sed -i 's|hyprctl setcursor [^ ]* [0-9]*|hyprctl setcursor pikachu-cursor 24|' "$HOME/.config/hypr/hyprland/execs.lua"
         if ! grep -q 'XCURSOR_THEME' "$HOME/.config/hypr/hyprland/env.lua" 2>/dev/null; then
-          printf '\nhl.env("XCURSOR_THEME", "pikachu-cursor2")\nhl.env("XCURSOR_SIZE", "24")\n' >> "$HOME/.config/hypr/hyprland/env.lua"
+          printf '\nhl.env("XCURSOR_THEME", "pikachu-cursor")\nhl.env("XCURSOR_SIZE", "24")\n' >> "$HOME/.config/hypr/hyprland/env.lua"
         fi
   '';
 
@@ -811,12 +811,12 @@
     text = ''
       [Appearance]
       icon_theme=Papirus-Dark
-      cursor_theme=pikachu-cursor2
+      cursor_theme=pikachu-cursor
       cursor_size=24
     '';
   };
 
-  home.file.".icons/pikachu-cursor2" = {
+  home.file.".icons/pikachu-cursor" = {
     source = ./cursors/pikachu;
     recursive = true;
   };
@@ -824,7 +824,7 @@
   home.sessionVariables = {
     GTK_THEME = "Adwaita:dark";
     ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
-    XCURSOR_THEME = "pikachu-cursor2";
+    XCURSOR_THEME = "pikachu-cursor";
     XCURSOR_SIZE = "24";
   };
 
@@ -855,7 +855,7 @@
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
-        cursor-theme = "pikachu-cursor2";
+        cursor-theme = "pikachu-cursor";
         cursor-size = 24;
       };
       "org/gnome/nautilus/preferences" = {
