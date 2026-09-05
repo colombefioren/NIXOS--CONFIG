@@ -345,8 +345,7 @@
     in
     {
       enable = true;
-      theme = spicePkgs.themes.bloom;
-      colorScheme = "dark";
+      theme = spicePkgs.themes.dribbblish;
       enabledExtensions = with spicePkgs.extensions; [
         adblock
         hidePodcasts
