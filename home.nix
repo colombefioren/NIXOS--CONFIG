@@ -45,7 +45,6 @@
     hl.bind(mainMod .. "+F", hl.dsp.window.fullscreen({ action = "toggle" }))
     hl.bind(mainMod .. "+U", hl.dsp.window.resize({ x = -50, y = 0 }))
     hl.bind(mainMod .. "+I", hl.dsp.window.resize({ x = 50, y = 0 }))
-    hl.bind(mainMod .. "+O", hl.dsp.window.resize({ x = 0, y = -50 }))
     hl.bind(mainMod .. "+P", hl.dsp.window.resize({ x = 0, y = 50 }))
     hl.bind(mainMod .. "+ALT+left",  hl.dsp.window.swap({ direction = "left" }))
     hl.bind(mainMod .. "+ALT+right", hl.dsp.window.swap({ direction = "right" }))
