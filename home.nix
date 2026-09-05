@@ -44,6 +44,7 @@
       { description = "Screenshot region" })
     hl.bind(mainMod .. "+V", hl.dsp.window.float({ action = "toggle" }))
     hl.bind(mainMod .. "+F", hl.dsp.window.fullscreen({ action = "toggle" }))
+    hl.bind(mainMod .. "+SHIFT+F", hl.dsp.exec_cmd("/home/cocofioren/.local/bin/spotify-fad-toggle"), { description = "Spotify full display toggle" })
     hl.bind(mainMod .. "+ALT+left",  hl.dsp.window.swap({ direction = "left" }))
     hl.bind(mainMod .. "+ALT+right", hl.dsp.window.swap({ direction = "right" }))
     hl.bind(mainMod .. "+ALT+up",    hl.dsp.window.swap({ direction = "up" }))
@@ -288,6 +289,28 @@
     recursive = true;
   };
 
+  home.file.".local/bin/spotify-fad-toggle" = {
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      # Toggle Spotify's Full App Display (glass album-art player) from anywhere.
+      # Focuses Spotify, sends its built-in Alt+F hotkey, then restores focus.
+
+      if ! pgrep -f "share/spotify/spotify" >/dev/null 2>&1; then
+        spotify >/dev/null 2>&1 & disown
+        sleep 3
+      fi
+
+      hyprctl dispatch focuswindow "class:spotify" >/dev/null 2>&1
+      sleep 0.4
+      CLASS=$(hyprctl activewindow -j 2>/dev/null | jq -r '.class // empty' 2>/dev/null)
+      if [[ "$CLASS" == "spotify" || "$CLASS" == "Spotify" ]]; then
+        wtype -M alt -k f
+      fi
+      hyprctl dispatch focuscurrentorlast >/dev/null 2>&1
+    '';
+  };
+
   home.sessionVariables = {
     GTK_THEME = "Adwaita:dark";
     ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
@@ -467,6 +490,7 @@
 
     wl-clipboard
     cliphist
+    wtype
 
     brave
     vscode
