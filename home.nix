@@ -73,6 +73,7 @@
 
         cat > "$HOME/.config/hypr/custom/variables.lua" << 'LUAEOF'
     hl.env("qsConfig", "end4-pC")
+    browser = "brave"
     LUAEOF
         chmod u+w "$HOME/.config/hypr/custom/variables.lua"
 
@@ -104,6 +105,9 @@
     hl.window_rule({ match = { class = "^(brave-browser)$" }, opacity = "1 0.8" })
     hl.window_rule({ match = { class = "^(brave)$" }, opacity = "1 0.8" })
 
+    -- Spotify: translucent glass player — blurred wallpaper shows through
+    hl.window_rule({ match = { class = "^(spotify)$" }, opacity = "0.86 0.82" })
+
     -- btop: much more transparent so the blur shows through its very dark UI
     hl.window_rule({ match = { title = "^btop$" }, opacity = "0.55 0.45" })
 
@@ -126,6 +130,7 @@
     })
     LUAEOF
         chmod u+w "$HOME/.config/hypr/custom/late.lua"
+
         if ! grep -q 'require("custom.late")' "$HOME/.config/hypr/hyprland.lua" 2>/dev/null; then
           echo 'require("custom.late")' >> "$HOME/.config/hypr/hyprland.lua"
         fi
@@ -148,6 +153,26 @@
     fi
     sed -i '/function screenshot() {/,/^    }/ s/if (Persistent.states.record.enable) {/{/' "$HOME/.config/quickshell/end4-pC/modules/ii/regionSelector/RegionSelector.qml"
   '';
+  # Boot the graphical-session.target at login. xdg-desktop-portal won't start
+  # otherwise (Requisite=graphical-session.target), which breaks OBS screen
+  # capture and app screen-share. graphical-session.target refuses manual
+  # starts, so it has to be pulled as a dependency of a Wants= unit.
+  systemd.user.services.boot-graphical-session = {
+    Unit = {
+      Description = "Activate the graphical session target (needed by xdg-desktop-portal)";
+      Wants = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.coreutils}/bin/true";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+
   systemd.user.services.audio-volume-boost = {
     Unit = {
       Description = "Boost built-in audio volume to 150%";
@@ -345,20 +370,8 @@
     in
     {
       enable = true;
-      theme = {
-        name = "Dribbblish";
-        src = spicePkgs.themes.dribbblish.src;
+      theme = spicePkgs.themes.dribbblish // {
         additionalCss = ''
-          /* ---- kill the green ---- */
-          :root {
-            --spice-rgb-button: 120 180 200;
-            --spice-rgb-button-active: 120 180 200;
-            --spice-rgb-sidebar: 80 110 130;
-            --spice-rgb-notification: 130 170 190;
-            --spice-rgb-tab-active: 110 160 180;
-            --spice-rgb-notification-error: 190 80 80;
-            --spice-rgb-misc: 150 150 160;
-          }
           /* ---- glassmorphism panels (mirror your kitty glass) ---- */
           .Root,
           .main-background,
@@ -402,19 +415,34 @@
             backdrop-filter: blur(10px) saturate(120%) !important;
             -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
           }
-          /* ---- lyric backdrop follows album color ---- */
+          /* ---- lyric backdrop: soft glass glow instead of flat black ---- */
           .lyrics-lyrics-background {
-            background: transparent !important;
+            background: radial-gradient(
+                ellipse at 50% 18%,
+                rgba(148, 151, 155, 0.28),
+                rgba(148, 151, 155, 0.07) 52%,
+                rgba(6, 7, 9, 0.6) 100%
+              ) !important;
+          }
+          .lyrics-lyrics-background,
+          .lyrics-lyrics-container {
+            --lyrics-color-background: transparent !important;
           }
           .lyrics-lyrics-container {
-            --lyrics-color-active: rgba(255, 255, 255, 0.95) !important;
-            --lyrics-color-inactive: rgba(255, 255, 255, 0.4) !important;
-            --lyrics-color-passed: rgba(255, 255, 255, 0.75) !important;
-            --lyrics-color-messaging: rgba(255, 255, 255, 0.45) !important;
+            --lyrics-color-active: rgba(255, 255, 255, 0.96) !important;
+            --lyrics-color-inactive: rgba(255, 255, 255, 0.42) !important;
+            --lyrics-color-passed: rgba(255, 255, 255, 0.78) !important;
+            --lyrics-color-messaging: rgba(255, 255, 255, 0.5) !important;
           }
           #lyrics-backdrop,
           #lyrics-backdrop-container {
-            background: rgba(12, 16, 20, 0.7) !important;
+            background: radial-gradient(
+                ellipse at 50% 25%,
+                rgba(148, 151, 155, 0.3),
+                transparent 65%
+              ), rgba(8, 9, 12, 0.5) !important;
+            backdrop-filter: blur(40px) saturate(150%) !important;
+            -webkit-backdrop-filter: blur(40px) saturate(150%) !important;
           }
           /* ---- card-like glass popups ---- */
           .main-topBar-topbarContentRight button:has(img),
@@ -431,6 +459,24 @@
             background: rgba(255, 255, 255, 0.03) !important;
           }
         '';
+      };
+      customColorScheme = {
+        text = "E0E0E0";
+        subtext = "ABABAB";
+        main = "121216";
+        sidebar = "1A1A1E";
+        player = "17171B";
+        card = "202024";
+        shadow = "000000";
+        selected-row = "3A3D42";
+        button = "787C81";
+        button-active = "989BA0";
+        button-disabled = "464950";
+        tab-active = "8C8F94";
+        notification = "202024";
+        notification-error = "C85A5A";
+        misc = "D6D6D8";
+        highlight = "C8CACC";
       };
       enabledExtensions = with spicePkgs.extensions; [
         adblock
@@ -590,6 +636,7 @@
     loupe
     evince
     celluloid
+    obs-studio
 
     spicetify-cli
 
