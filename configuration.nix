@@ -15,7 +15,14 @@
     device = "nodev";
     gfxmodeEfi = "auto";
     theme = ./grub-theme;
-    useOSProber = true;
+    extraEntries = ''
+      menuentry "Windows Boot Manager" --class windows --class os {
+        insmod part_gpt
+        insmod fat
+        search --no-floppy --fs-uuid --set=root 4CE1-A6B8
+        chainloader /EFI/Microsoft/Boot/bootmgfw.efi
+      }
+    '';
   };
 
   environment.systemPackages = with pkgs; [
