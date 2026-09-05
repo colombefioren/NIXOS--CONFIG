@@ -10,6 +10,8 @@ let
       mkdir -p "$themedir/images"
       cp polishcow.plymouth polishcow.script "$themedir/"
       cp images/*.png "$themedir/images/"
+      sed -i "s,^ImageDir=.*,ImageDir=$themedir/images," "$themedir/polishcow.plymouth"
+      sed -i "s,^ScriptFile=.*,ScriptFile=$themedir/polishcow.script," "$themedir/polishcow.plymouth"
     '';
   };
 in
@@ -43,6 +45,7 @@ in
     theme = "polishcow";
     themePackages = [ polishcowPlymouth ];
   };
+  boot.initrd.kernelModules = [ "i915" ];
   boot.kernelParams = [ "quiet" "splash" ];
   boot.consoleLogLevel = 3;
   boot.initrd.verbose = false;
