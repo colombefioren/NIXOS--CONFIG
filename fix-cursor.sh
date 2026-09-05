@@ -32,13 +32,13 @@ with open(path) as f:
 
 # Remove HYPRCURSOR_THEME / HYPRCURSOR_SIZE from sessionVariables
 content = content.replace(
-    '    XCURSOR_SIZE = "24";\n    HYPRCURSOR_THEME = "pikachu-cursor";\n    HYPRCURSOR_SIZE = "24";\n',
+    '    XCURSOR_SIZE = "24";\n    HYPRCURSOR_THEME = "pikachu-cursor2";\n    HYPRCURSOR_SIZE = "24";\n',
     '    XCURSOR_SIZE = "24";\n'
 )
 
 # Remove the HYPRCURSOR_THEME injection block from the activation script
 old_block = '''        if ! grep -q 'HYPRCURSOR_THEME' "$HOME/.config/hypr/hyprland/env.lua" 2>/dev/null; then
-          printf '\\nhl.env("HYPRCURSOR_THEME", "pikachu-cursor")\\nhl.env("HYPRCURSOR_SIZE", "24")\\n' >> "$HOME/.config/hypr/hyprland/env.lua"
+          printf '\\nhl.env("HYPRCURSOR_THEME", "pikachu-cursor2")\\nhl.env("HYPRCURSOR_SIZE", "24")\\n' >> "$HOME/.config/hypr/hyprland/env.lua"
         fi
 '''
 content = content.replace(old_block, '')
@@ -52,7 +52,7 @@ content = content.replace(
     '''      "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
         gtk-theme = "Adwaita-dark";
-        cursor-theme = "pikachu-cursor";
+        cursor-theme = "pikachu-cursor2";
         cursor-size = 24;
       };'''
 )
