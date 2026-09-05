@@ -322,7 +322,8 @@
     in
     {
       enable = true;
-      theme = spicePkgs.themes.text;
+      theme = spicePkgs.themes.bloom;
+      colorScheme = "dark";
       enabledExtensions = with spicePkgs.extensions; [
         adblock
         hidePodcasts
@@ -479,6 +480,8 @@
     loupe
     evince
     celluloid
+
+    spicetify-cli
 
     pavucontrol
     playerctl
