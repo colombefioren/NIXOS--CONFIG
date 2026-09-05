@@ -1,5 +1,18 @@
 { config, lib, pkgs, ... }:
-
+let
+  polishcowPlymouth = pkgs.stdenvNoCC.mkDerivation {
+    pname = "plymouth-theme-polishcow";
+    version = "1.0.0";
+    src = ./plymouth-polishcow;
+    dontBuild = true;
+    installPhase = ''
+      themedir=$out/share/plymouth/themes/polishcow
+      mkdir -p "$themedir/images"
+      cp polishcow.plymouth polishcow.script "$themedir/"
+      cp images/*.png "$themedir/images/"
+    '';
+  };
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -24,6 +37,15 @@
       }
     '';
   };
+
+  boot.plymouth = {
+    enable = true;
+    theme = "polishcow";
+    themePackages = [ polishcowPlymouth ];
+  };
+  boot.kernelParams = [ "quiet" "splash" ];
+  boot.consoleLogLevel = 3;
+  boot.initrd.verbose = false;
 
   environment.systemPackages = with pkgs; [
     git wget vim curl foot hyprpaper kitty waybar neovim nodejs python3

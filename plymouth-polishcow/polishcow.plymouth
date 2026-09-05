@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=polishcow
+Description=Tylko jedno w głowie mam, koksu 5 gram.
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/polishcow/images
+ScriptFile=/usr/share/plymouth/themes/polishcow/polishcow.script
