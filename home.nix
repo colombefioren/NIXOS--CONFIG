@@ -346,6 +346,90 @@
     {
       enable = true;
       theme = spicePkgs.themes.dribbblish;
+      colorScheme = "Dribbblish";
+      additionalCss = ''
+        /* ---- kill the green ---- */
+        :root {
+          --spice-rgb-button: 120 180 200;
+          --spice-rgb-button-active: 120 180 200;
+          --spice-rgb-sidebar: 80 110 130;
+          --spice-rgb-notification: 130 170 190;
+          --spice-rgb-tab-active: 110 160 180;
+          --spice-rgb-notification-error: 190 80 80;
+          --spice-rgb-misc: 150 150 160;
+        }
+        /* ---- glassmorphism panels (mirror your kitty glass) ---- */
+        .Root,
+        .main-background,
+        .main-container,
+        .main-background-divider,
+        .main-topBar-background,
+        .now-playing-bar,
+        .main-bar-column,
+        .main-bar-content,
+        .sidebar-container,
+        .sidebar,
+        .main-kva-window,
+        .main-tabBar,
+        .main-card,
+        .main-cardMainActions,
+        .main-actionable-item-grabArea,
+        .main-listRow:hover,
+        .main-listRow:active,
+        .main-detailHeaderGradient,
+        .page,
+        .main-tile,
+        .main-topBar-topbarViewport,
+        .main-topBar-topbarContent,
+        .main-topBar-topbarContentRight,
+        .main-userWidget-box,
+        .main-navBar,
+        .main-navBarNav,
+        .main-navLink,
+        .main-globalNav-container,
+        .main-albumArtCard,
+        .main-albumArtCardDefault,
+        .main-artistArtCard,
+        .main-addButton,
+        .main-nowPlayingBar,
+        aside.main-alternativeModes,
+        .lyrics-lyrics-background,
+        .main-lyricsCinema-controls,
+        #lyrics-backdrop,
+        #lyrics-backdrop-container {
+          background: rgba(18, 22, 28, 0.55) !important;
+          backdrop-filter: blur(10px) saturate(120%) !important;
+          -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
+        }
+        /* ---- make lyrics derive album color instead of black ---- */
+        .lyrics-lyrics-background {
+          background: transparent !important;
+        }
+        .lyrics-lyrics-container {
+          --lyrics-color-active: rgba(255, 255, 255, 0.95) !important;
+          --lyrics-color-inactive: rgba(255, 255, 255, 0.4) !important;
+          --lyrics-color-passed: rgba(255, 255, 255, 0.75) !important;
+          --lyrics-color-messaging: rgba(255, 255, 255, 0.45) !important;
+        }
+        #lyrics-backdrop,
+        #lyrics-backdrop-container {
+          background: rgba(12, 16, 20, 0.7) !important;
+        }
+        /* ---- card-like glass popups ---- */
+        .main-topBar-topbarContentRight button:has(img),
+        .main-userWidget-box[data-testid="user-widget-link"] {
+          background: rgba(40, 52, 62, 0.85) !important;
+          backdrop-filter: blur(12px) !important;
+          -webkit-backdrop-filter: blur(12px) !important;
+        }
+        /* ---- unobtrusive dividers ---- */
+        .main-background-divider {
+          background: rgba(255, 255, 255, 0.06) !important;
+        }
+        .main-listRow-headerBackground {
+          background: rgba(255, 255, 255, 0.03) !important;
+        }
+      '';
       enabledExtensions = with spicePkgs.extensions; [
         adblock
         hidePodcasts
