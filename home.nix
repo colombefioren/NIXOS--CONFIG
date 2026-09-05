@@ -806,11 +806,13 @@
     };
   };
 
-  home.file."qt6ct/qt6ct.conf" = {
+  xdg.configFile."qt6ct/qt6ct.conf" = {
     force = true;
     text = ''
       [Appearance]
       icon_theme=Papirus-Dark
+      cursor_theme=pikachu-cursor
+      cursor_size=24
     '';
   };
 
