@@ -5,8 +5,17 @@
     ./hardware-configuration.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.timeout = 5;
+
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    device = "nodev";
+    gfxmodeEfi = "auto";
+    theme = ./grub-theme;
+  };
 
   environment.systemPackages = with pkgs; [
     git wget vim curl foot hyprpaper kitty waybar neovim nodejs python3
