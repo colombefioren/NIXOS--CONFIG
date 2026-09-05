@@ -15,6 +15,7 @@
     device = "nodev";
     gfxmodeEfi = "auto";
     theme = ./grub-theme;
+    useOSProber = true;
   };
 
   environment.systemPackages = with pkgs; [
