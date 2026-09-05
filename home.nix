@@ -3,6 +3,7 @@
   lib,
   pkgs,
   zen-browser,
+  spicetify-nix,
   ...
 }:
 
@@ -314,6 +315,19 @@
     labelColor = "cyan";
     speed = 1.0;
   };
+
+  programs.spicetify =
+    let
+      spicePkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+    in
+    {
+      enable = true;
+      theme = spicePkgs.themes.text;
+      enabledExtensions = with spicePkgs.extensions; [
+        adblock
+        hidePodcasts
+      ];
+    };
 
   dconf = {
     enable = true;

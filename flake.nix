@@ -26,9 +26,14 @@
         home-manager.follows = "home-manager";
       };
     };
+
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, illogical-flake, areofyl-fetch, zen-browser, ... }: {
+  outputs = { self, nixpkgs, home-manager, illogical-flake, areofyl-fetch, zen-browser, spicetify-nix, ... }: {
     nixosConfigurations.dellillah = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -39,12 +44,13 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
 
-          home-manager.extraSpecialArgs = { inherit zen-browser; };
+          home-manager.extraSpecialArgs = { inherit zen-browser spicetify-nix; };
 
           home-manager.users.cocofioren = {
             imports = [
               illogical-flake.homeManagerModules.default
               areofyl-fetch.homeManagerModules.default
+              spicetify-nix.homeManagerModules.default
               ./home.nix
             ];
           };
