@@ -327,6 +327,7 @@
       enabledExtensions = with spicePkgs.extensions; [
         adblock
         hidePodcasts
+        fullAppDisplay
       ];
     };
 
