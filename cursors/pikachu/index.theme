@@ -1,4 +1,4 @@
 [Icon Theme]
-Name=Pikachu Cursors
-Comment=Pikachu & Pokeball cursors from Sweezy Cursors
+Name=pikachu-cursor
+Comment=Pikachu & Pokeball cursors from Sweezy Cursors, converted for Linux/X11/Wayland
 Inherits=Adwaita,hicolor
