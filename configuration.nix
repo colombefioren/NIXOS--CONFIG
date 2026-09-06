@@ -37,6 +37,12 @@ in
         search --no-floppy --fs-uuid --set=root 4CE1-A6B8
         chainloader /EFI/Microsoft/Boot/bootmgfw.efi
       }
+      menuentry "Fedora Linux" --class fedora --class gnu-linux --class gnu --class os {
+        insmod part_gpt
+        insmod fat
+        search --no-floppy --fs-uuid --set=root 4CE1-A6B8
+        chainloader /EFI/fedora/grubx64.efi
+      }
     '';
   };
 
