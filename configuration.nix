@@ -20,6 +20,11 @@ in
     ./hardware-configuration.nix
   ];
 
+  # If home-manager activation finds a colliding file (e.g. the upstream fish
+  # config), move it aside with this suffix instead of aborting, so the
+  # home-manager-cocofioren.service succeeds at login.
+  home-manager.backupFileExtension = "hmbak";
+
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 5;

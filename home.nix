@@ -32,15 +32,15 @@
     hl.unbind(mainMod .. "+RETURN")
     hl.unbind(mainMod .. "+Return")
     hl.bind(mainMod .. "+RETURN", hl.dsp.exec_cmd("kitty"))
-    hl.bind(mainMod .. "+A", hl.dsp.exec_cmd("qs -c end4-pC ipc call sidebarLeft toggle"), { description = "Left sidebar" })
+    hl.bind(mainMod .. "+A", hl.dsp.exec_cmd("qs -c ii ipc call sidebarLeft toggle"), { description = "Left sidebar" })
     hl.unbind(mainMod .. "+N")
     hl.bind(mainMod .. "+N", hl.dsp.exec_cmd("kitty -e nvim"), { description = "Neovim" })
     hl.unbind(mainMod .. "+P")
-    hl.bind(mainMod .. "+P", hl.dsp.exec_cmd("qs -c end4-pC ipc call sidebarRight toggle"), { description = "Right sidebar" })
-    hl.bind(mainMod .. "+L", hl.dsp.exec_cmd("qs -c end4-pC ipc call lock activate"), { description = "Lock screen" })
-    hl.bind(mainMod .. "+Escape", hl.dsp.exec_cmd("qs -c end4-pC ipc call settingsToggle"), { description = "Settings" })
-    hl.bind(mainMod .. "+comma", hl.dsp.exec_cmd("qs -c end4-pC ipc call bar toggle"), { description = "Toggle bar" })
-    hl.bind(mainMod .. "+SHIFT+R", hl.dsp.exec_cmd("killall qs quickshell; qs -c end4-pC &"), { description = "Reload shell" })
+    hl.bind(mainMod .. "+P", hl.dsp.exec_cmd("qs -c ii ipc call sidebarRight toggle"), { description = "Right sidebar" })
+    hl.bind(mainMod .. "+L", hl.dsp.exec_cmd("qs -c ii ipc call lock activate"), { description = "Lock screen" })
+    hl.bind(mainMod .. "+Escape", hl.dsp.exec_cmd("qs -c ii ipc call settingsToggle"), { description = "Settings" })
+    hl.bind(mainMod .. "+comma", hl.dsp.exec_cmd("qs -c ii ipc call bar toggle"), { description = "Toggle bar" })
+    hl.bind(mainMod .. "+SHIFT+R", hl.dsp.exec_cmd("killall qs quickshell; qs -c ii &"), { description = "Reload shell" })
     hl.unbind(mainMod .. "+S")
     hl.bind(mainMod .. "+S",
       hl.dsp.exec_cmd([[mkdir -p ~/Pictures/Screenshots; f=~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png; grim -g "$(slurp)" "$f" && wl-copy < "$f"]]),
@@ -75,7 +75,7 @@
         chmod u+w "$HOME/.config/hypr/custom/keybinds.lua"
 
         cat > "$HOME/.config/hypr/custom/variables.lua" << 'LUAEOF'
-    hl.env("qsConfig", "end4-pC")
+    hl.env("qsConfig", "ii")
     browser = "brave"
     LUAEOF
         chmod u+w "$HOME/.config/hypr/custom/variables.lua"
@@ -146,15 +146,18 @@
         fi
   '';
 
-  home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
-    if [ ! -d "$HOME/.config/quickshell/end4-pC/.git" ]; then
-      $DRY_RUN_CMD ${pkgs.git}/bin/git clone --depth 1 https://github.com/pctrade/end4-pC.git "$HOME/.config/quickshell/end4-pC" || true
+  # end-4/dots-hyprland (via illogical-flake) is copied to ~/.config/quickshell/ii
+  # by copyIllogicalImpulseConfigs on every switch/login. Re-apply the small
+  # upstream bugfixes here, AFTER that copy.
+  home.activation.patchIllogicalImpulseShell = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
+    iiShell="$HOME/.config/quickshell/ii"
+    [ -d "$iiShell" ] || exit 0
+    # palette key was snake_case, dict is camelCase -> KeyError -> no themed colors/icons
+    sed -i 's/primary_paletteKeyColor/primaryPaletteKeyColor/' "$iiShell/scripts/colors/generate_colors_material.py"
+    if ! grep -q 'magick png:' "$iiShell/modules/common/utils/ScreenshotAction.qml" 2>/dev/null; then
+      sed -i 's|const cropBase = `magick |const cropBase = `magick png:|' "$iiShell/modules/common/utils/ScreenshotAction.qml"
     fi
-    sed -i "s/primary_paletteKeyColor/primaryPaletteKeyColor/" "$HOME/.config/quickshell/end4-pC/scripts/colors/generate_colors_material.py"
-    if ! grep -q 'magick png:' "$HOME/.config/quickshell/end4-pC/modules/common/utils/ScreenshotAction.qml" 2>/dev/null; then
-      sed -i 's|const cropBase = `magick |const cropBase = `magick png:|' "$HOME/.config/quickshell/end4-pC/modules/common/utils/ScreenshotAction.qml"
-    fi
-    sed -i '/function screenshot() {/,/^    }/ s/if (Persistent.states.record.enable) {/{/' "$HOME/.config/quickshell/end4-pC/modules/ii/regionSelector/RegionSelector.qml"
+    sed -i '/function screenshot() {/,/^    }/ s/if (Persistent.states.record.enable) {/{/' "$iiShell/modules/ii/regionSelector/RegionSelector.qml"
   '';
   # Boot the graphical-session.target at login. xdg-desktop-portal won't start
   # otherwise (Requisite=graphical-session.target), which breaks OBS screen
@@ -190,7 +193,20 @@
     };
   };
 
-  programs.illogical-impulse.enable = true;
+  programs.illogical-impulse = {
+    enable = true;
+    dotfiles = {
+      # We use zsh; keeping fish enabled makes home-manager also manage
+      # ~/.config/fish/config.fish, which collides with the illogical-flake
+      # copy and aborts the login-time home-manager activation
+      # ("would be clobbered"), so overrides never apply after a reboot.
+      fish.enable = false;
+    };
+  };
+
+  # Safety net lives at the system level: configuration.nix sets
+  # home-manager.backupFileExtension (home-manager.* own options are global,
+  # not per-user).
 
   programs.kitty = {
     enable = true;
@@ -533,9 +549,8 @@
       cat = "bat";
       nclean = "sudo nix-env -p /nix/var/nix/profiles/system --delete-generations old && sudo nix-collect-garbage -d && sudo nixos-rebuild switch --flake /etc/nixos#dellillah";
       nrs = "sudo nixos-rebuild switch --flake /etc/nixos#dellillah";
-      end4pull = "cd ~/.config/quickshell/end4-pC && git pull";
-      wvid = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/wallpaper.mp4 >/dev/null 2>&1";
-      wpic = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/pokemon.png >/dev/null 2>&1";
+      wvid = "$HOME/.config/quickshell/ii/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/wallpaper.mp4 >/dev/null 2>&1";
+      wpic = "$HOME/.config/quickshell/ii/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/pokemon.png >/dev/null 2>&1";
     };
 
     profileExtra = ''
