@@ -40,7 +40,7 @@
     hl.bind(mainMod .. "+L", hl.dsp.exec_cmd("qs -c end4-pC ipc call lock activate"), { description = "Lock screen" })
     hl.bind(mainMod .. "+Escape", hl.dsp.exec_cmd("qs -c end4-pC ipc call settingsToggle"), { description = "Settings" })
     hl.bind(mainMod .. "+comma", hl.dsp.exec_cmd("qs -c end4-pC ipc call bar toggle"), { description = "Toggle bar" })
-    hl.bind(mainMod .. "+SHIFT+R", hl.dsp.exec_cmd("killall qs quickshell; qs -c end4-pC &"), { description = "Reload shell" })
+    hl.bind(mainMod .. "+SHIFT+R", hl.dsp.exec_cmd("pkill -f 'qs-wrapped -c end4-[p]C' || true; sleep 1; pkill -9 -f 'qs-wrapped -c end4-[p]C' || true; qs -c end4-pC >/dev/null 2>&1 &"), { description = "Reload shell" })
     hl.unbind(mainMod .. "+S")
     hl.bind(mainMod .. "+S",
       hl.dsp.exec_cmd([[mkdir -p ~/Pictures/Screenshots; f=~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png; grim -g "$(slurp)" "$f" && wl-copy < "$f"]]),
