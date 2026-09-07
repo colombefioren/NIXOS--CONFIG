@@ -147,14 +147,22 @@
   '';
 
   home.activation.installEnd4pC = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
-    if [ ! -d "$HOME/.config/quickshell/end4-pC/.git" ]; then
-      $DRY_RUN_CMD ${pkgs.git}/bin/git clone --depth 1 https://github.com/pctrade/end4-pC.git "$HOME/.config/quickshell/end4-pC" || true
+    END4_DIR="$HOME/.config/quickshell/end4-pC"
+    END4_PIN=f1fb69c6f3f2727e5cd73223a8f56525125565ea
+    if [ ! -d "$END4_DIR/.git" ]; then
+      $DRY_RUN_CMD ${pkgs.git}/bin/git init "$END4_DIR"
+      $DRY_RUN_CMD ${pkgs.git}/bin/git -C "$END4_DIR" remote add origin https://github.com/pctrade/end4-pC.git
+      $DRY_RUN_CMD ${pkgs.git}/bin/git -C "$END4_DIR" fetch --depth 1 origin "$END4_PIN"
+      $DRY_RUN_CMD ${pkgs.git}/bin/git -C "$END4_DIR" reset --hard FETCH_HEAD
+    elif [ "$(${pkgs.git}/bin/git -C "$END4_DIR" rev-parse HEAD 2>/dev/null)" != "$END4_PIN" ]; then
+      $DRY_RUN_CMD ${pkgs.git}/bin/git -C "$END4_DIR" fetch --depth 1 origin "$END4_PIN"
+      $DRY_RUN_CMD ${pkgs.git}/bin/git -C "$END4_DIR" reset --hard "$END4_PIN"
     fi
-    sed -i "s/primary_paletteKeyColor/primaryPaletteKeyColor/" "$HOME/.config/quickshell/end4-pC/scripts/colors/generate_colors_material.py"
-    if ! grep -q 'magick png:' "$HOME/.config/quickshell/end4-pC/modules/common/utils/ScreenshotAction.qml" 2>/dev/null; then
-      sed -i 's|const cropBase = `magick |const cropBase = `magick png:|' "$HOME/.config/quickshell/end4-pC/modules/common/utils/ScreenshotAction.qml"
+    sed -i "s/primary_paletteKeyColor/primaryPaletteKeyColor/" "$END4_DIR/scripts/colors/generate_colors_material.py"
+    if ! grep -q 'magick png:' "$END4_DIR/modules/common/utils/ScreenshotAction.qml" 2>/dev/null; then
+      sed -i 's|const cropBase = `magick |const cropBase = `magick png:|' "$END4_DIR/modules/common/utils/ScreenshotAction.qml"
     fi
-    sed -i '/function screenshot() {/,/^    }/ s/if (Persistent.states.record.enable) {/{/' "$HOME/.config/quickshell/end4-pC/modules/ii/regionSelector/RegionSelector.qml"
+    sed -i '/function screenshot() {/,/^    }/ s/if (Persistent.states.record.enable) {/{/' "$END4_DIR/modules/ii/regionSelector/RegionSelector.qml"
   '';
   # Boot the graphical-session.target at login. xdg-desktop-portal won't start
   # otherwise (Requisite=graphical-session.target), which breaks OBS screen
