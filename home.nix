@@ -583,6 +583,7 @@
     eza
     btop
     yazi
+    fish
     lazygit
     fastfetch
     fzf
