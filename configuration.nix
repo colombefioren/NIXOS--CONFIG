@@ -185,7 +185,14 @@ in
   hardware.graphics.enable = true;
 
   services.geoclue2.enable = true;
-
+  services.postgresql = {
+  enable = true;
+  package = pkgs.postgresql_18;
+  authentication = pkgs.lib.mkOverride 10 ''
+    local all postgres scram-sha-256
+    local all all scram-sha-256
+  '';
+  };
   nixpkgs.overlays = [
     (final: prev: {
       python3 = prev.python3.override {
