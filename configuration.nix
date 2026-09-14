@@ -128,9 +128,11 @@ in
 
   users.users.cocofioren = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" ];
     shell = pkgs.zsh;
   };
+
+  virtualisation.docker.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
@@ -188,10 +190,6 @@ in
   services.postgresql = {
   enable = true;
   package = pkgs.postgresql_18;
-  authentication = pkgs.lib.mkOverride 10 ''
-    local all postgres scram-sha-256
-    local all all scram-sha-256
-  '';
   };
   nixpkgs.overlays = [
     (final: prev: {
