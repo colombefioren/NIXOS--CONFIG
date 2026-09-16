@@ -551,6 +551,8 @@
       cat = "bat";
       nclean = "sudo nix-env -p /nix/var/nix/profiles/system --delete-generations old && sudo nix-collect-garbage -d && sudo nixos-rebuild switch --flake /etc/nixos#dellillah";
       nrs = "sudo nixos-rebuild switch --flake /etc/nixos#dellillah";
+      nbuild = "sudo nixos-rebuild dry-build --flake /etc/nixos#dellillah";
+      nupdate = "cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake /etc/nixos#dellillah && git add flake.lock && git commit -m 'chore: update flake.lock' && git push";
       end4pull = "cd ~/.config/quickshell/end4-pC && git pull";
       wvid = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/wallpaper.mp4 >/dev/null 2>&1";
       wpic = "$HOME/.config/quickshell/end4-pC/scripts/colors/switchwall.sh --mode dark $HOME/Downloads/pokemon.png >/dev/null 2>&1";
