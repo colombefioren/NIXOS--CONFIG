@@ -164,6 +164,30 @@
     fi
     sed -i '/function screenshot() {/,/^    }/ s/if (Persistent.states.record.enable) {/{/' "$END4_DIR/modules/ii/regionSelector/RegionSelector.qml"
   '';
+
+  # Install pre-built opencode v1.18.31 to ~/.local/bin/opencode (takes
+  # precedence over the nix system path via PATH order). v1.18.30 has a
+  # critical bug — TypeError in SystemPrompt.environment causes "Unexpected
+  # server error" on every message. The nixpkgs source build has a
+  # version-dependent node_modules hash that prevents simple overrideAttrs,
+  # so we ship the upstream pre-built binary instead.
+  home.activation.installOpenCode = lib.hm.dag.entryAfter [ "writeMyHyprKeybinds" ] ''
+    OC_URL="https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-linux-x64.tar.gz"
+    OC_SHA256="e9312be75ed803b7415fc2aeabda1f4fe938912a39673762dc0c38c0e11ebde4"
+    OC_BIN="$HOME/.local/bin/opencode"
+
+    if ! [ "$("$OC_BIN" --version 2>/dev/null)" = "1.18.31" ]; then
+      mkdir -p "$HOME/.local/bin"
+      tmp="$(mktemp -d)"
+      ${pkgs.curl}/bin/curl -sSL "$OC_URL" -o "$tmp/opencode.tar.gz"
+      echo "$OC_SHA256  $tmp/opencode.tar.gz" | ${pkgs.coreutils}/bin/sha256sum -c -
+      tar xzf "$tmp/opencode.tar.gz" -C "$tmp"
+      cp "$tmp/opencode" "$OC_BIN"
+      chmod +x "$OC_BIN"
+      rm -rf "$tmp"
+    fi
+  '';
+
   # Boot the graphical-session.target at login. xdg-desktop-portal won't start
   # otherwise (Requisite=graphical-session.target), which breaks OBS screen
   # capture and app screen-share. graphical-session.target refuses manual
@@ -360,6 +384,7 @@
     ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
     XCURSOR_THEME = "pikachu-cursor";
     XCURSOR_SIZE = "32";
+    OPENCODE_DISABLE_AUTOUPDATE = "true";
   };
 
   programs.git = {

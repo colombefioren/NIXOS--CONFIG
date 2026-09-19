@@ -201,46 +201,6 @@ in
         };
       };
       python3Packages = final.python3.pkgs;
-
-      # Override opencode to use pre-built v1.18.31 binary (fixes v1.18.30
-      # TypeError crash in SystemPrompt.environment that caused "Unexpected
-      # server error" on every message). The nixpkgs source build has a
-      # version-dependent node_modules hash that prevents simple
-      # overrideAttrs, so we use the upstream pre-built binary instead.
-      opencode = prev.stdenv.mkDerivation {
-        pname = "opencode";
-        version = "1.18.31";
-
-        src = prev.fetchurl {
-          url = "https://github.com/anomalyco/opencode/releases/download/v1.18.31/opencode-linux-x64.tar.gz";
-          sha256 = "e9312be75ed803b7415fc2aeabda1f4fe938912a39673762dc0c38c0e11ebde4";
-        };
-
-        dontUnpack = true;
-        dontBuild = true;
-
-        nativeBuildInputs = [ prev.makeWrapper ];
-
-        installPhase = ''
-          mkdir -p $out/bin
-          tar xzf "$src" -C "$out/bin"
-          chmod +x "$out/bin/opencode"
-        '';
-
-        postFixup = ''
-          wrapProgram $out/bin/opencode \
-            --set OPENCODE_DISABLE_AUTOUPDATE true \
-            --prefix PATH : ${prev.lib.makeBinPath [ prev.ripgrep ]}
-        '';
-
-        meta = {
-          description = "AI coding agent built for the terminal";
-          homepage = "https://github.com/anomalyco/opencode";
-          license = prev.lib.licenses.mit;
-          mainProgram = "opencode";
-          platforms = [ "x86_64-linux" ];
-        };
-      };
     })
   ];
 
