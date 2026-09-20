@@ -649,6 +649,7 @@
     nodejs
     typescript
     typescript-language-server
+    bun
 
     go
     rustc
