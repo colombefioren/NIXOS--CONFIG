@@ -387,6 +387,10 @@
     OPENCODE_DISABLE_AUTOUPDATE = "true";
   };
 
+  home.sessionPath = [
+    "$HOME/.empryo/bin"
+  ];
+
   programs.git = {
     enable = true;
 
