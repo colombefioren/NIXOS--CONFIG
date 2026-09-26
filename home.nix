@@ -62,6 +62,8 @@
     hl.bind(mainMod .. "+E", hl.dsp.exec_cmd("nautilus"), { description = "Files: Nautilus" })
     hl.bind(mainMod .. "+Y", hl.dsp.exec_cmd("kitty -1 fish -c yazi"), { description = "Files: Yazi" })
     hl.bind(mainMod .. "+B", hl.dsp.exec_cmd("brave"))
+    hl.unbind(mainMod .. "+W")
+    hl.bind(mainMod .. "+W", hl.dsp.exec_cmd("brave"))
     hl.bind(mainMod .. "+SHIFT+1", hl.dsp.window.move({ workspace = "1", follow = true }))
     hl.bind(mainMod .. "+SHIFT+2", hl.dsp.window.move({ workspace = "2", follow = true }))
     hl.bind(mainMod .. "+right", hl.dsp.window.cycle_next({ next = true }))
@@ -708,6 +710,11 @@
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
+      "text/html" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/http" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/https" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/about" = [ "brave-browser.desktop" ];
+
       "image/jpeg" = [ "org.gnome.Loupe.desktop" ];
       "image/png" = [ "org.gnome.Loupe.desktop" ];
       "image/gif" = [ "org.gnome.Loupe.desktop" ];
